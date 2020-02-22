@@ -110,23 +110,23 @@ input {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 14px;
 }
 
 .seccion_buscar p {
     font-weight: bold;
     color: #FFFFFF;
     background-image: linear-gradient(270deg, #F7C9F3 0%, #4180F6 100%);
+    margin: 2px 2px 2px 2px;
 }
 
 .button_buscar {
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
     background-color: #E6E6E6;
     border: 1px solid #808080;
     box-shadow: inset -1px -1px 0 0 #B4B4B4, inset 1px 1px 0 0 #FFFFFF;
-    width: 102px;
     height: 36px;
+    width: 102px;
+    color: #B4B4B4;
 }
 
 
