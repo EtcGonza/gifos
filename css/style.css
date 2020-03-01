@@ -35,12 +35,13 @@ section {
     background-color: #FFFAFE;
     border: 1px solid #E6BBE2;
     box-shadow: inset -2px -2px 0 0 #E6DCE4, inset 2px 2px 0 0 #80687D;
+    margin-bottom: 19px;
 }
 
 .gif {
-    width: 100%;
+    max-width: 100%;
+    /* width: 100%; */
     height: auto;
-    margin: 0px 24px 0px 0px;
 }
 
 
@@ -135,13 +136,22 @@ input {
 
 /* Sugerencia */
 
+.contenedor-gif-sugerencia {
+    padding: 4px;
+    background: #E6E6E6;
+    box-shadow: inset -2px -2px 0 0 #B4B4B4, inset 2px 2px 0 0 #FFFFFF;
+    margin-right: 19px;
+}
+
+.contenedor-gif-sugerencia:last-child {
+    margin-right: 0px;
+}
+
 .descripcion-gif {
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-image: linear-gradient(270deg, #F7C9F3 0%, #4180F6 100%);
-    margin-top: 19px;
-    /* width: 280px; */
     height: 24px;
 }
 
@@ -149,7 +159,6 @@ input {
     background-color: transparent;
     font-weight: bold;
     color: #FFFFFF;
-    /* margin:  */
     border: none;
     box-shadow: none;
 }
@@ -159,17 +168,32 @@ input {
     width: 16px;
 }
 
-.descripcion-gif p,
-img {
-    margin: 0px 5px 0px 5px;
-}
-
 
 /* Tendencias */
 
 .grid-tendencias {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    grid-gap: 19px;
-    margin-top: 19px;
+    grid-auto-rows: auto;
+    grid-template-columns: auto auto auto auto;
+    grid-gap: 16px;
+}
+
+.contenedor-gif-tendencia {
+    position: relative;
+}
+
+.contenedor-gif-tendencia {
+    width: auto;
+    height: auto;
+}
+
+.hastags-gif {
+    position: absolute;
+    transition: opacity 0.3s;
+    top: 93%;
+    text-align: center;
+    color: #FFFFFF;
+    font-weight: bold;
+    width: 100%;
+    background-image: linear-gradient(270deg, #F7C9F3 0%, #4180F6 100%);
 }
