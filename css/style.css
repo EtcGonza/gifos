@@ -178,6 +178,13 @@ input {
     grid-gap: 16px;
 }
 
+.contenedor-gif-tendencia .gif:nth-child(2n+2) {
+    grid-column: span 3;
+    background-color: #4180F6;
+    width: 2000px;
+    grid-row: span 1;
+}
+
 .contenedor-gif-tendencia {
     position: relative;
 }
