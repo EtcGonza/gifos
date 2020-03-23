@@ -40,8 +40,8 @@ section {
 
 .gif {
     max-width: 100%;
-    /* width: 100%; */
-    height: auto;
+    width: 345px;
+    height: 296px;
 }
 
 
@@ -136,14 +136,14 @@ input {
 
 /* Sugerencia */
 
-.contenedor-gif-sugerencia {
+.windowFrame {
     padding: 4px;
     background: #E6E6E6;
     box-shadow: inset -2px -2px 0 0 #B4B4B4, inset 2px 2px 0 0 #FFFFFF;
     margin-right: 19px;
 }
 
-.contenedor-gif-sugerencia:last-child {
+.windowFrame:last-child {
     margin-right: 0px;
 }
 
@@ -176,31 +176,23 @@ input {
     grid-auto-rows: auto;
     grid-template-columns: auto auto auto auto;
     grid-gap: 16px;
+    justify-items: center;
 }
 
-.contenedor-gif-tendencia .gif:nth-child(2n+2) {
-    grid-column: span 3;
-    background-color: #4180F6;
-    width: 2000px;
-    grid-row: span 1;
-}
-
-.contenedor-gif-tendencia {
+.gif-tendencia {
     position: relative;
+    width: 100%;
 }
 
-.contenedor-gif-tendencia {
-    width: auto;
-    height: auto;
-}
-
-.hastags-gif {
+div.contenedor-hastags {
     position: absolute;
-    transition: opacity 0.3s;
     top: 93%;
+    width: 100%;
+}
+
+div.contenedor-hastags p {
     text-align: center;
     color: #FFFFFF;
     font-weight: bold;
-    width: 100%;
     background-image: linear-gradient(270deg, #F7C9F3 0%, #4180F6 100%);
 }
