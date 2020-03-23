@@ -2,6 +2,7 @@ const apiKey = "WMgym4yAIPYofgGPrganKNA7n1vg2D5Y";
 
 barSearch();
 loadTrending();
+loadSugest();
 
 // FUNCIONES DE API //
 async function getTrending(limitGifs) {
@@ -16,10 +17,10 @@ async function buscarApi(searchParam) {
     return jsonSearch;
 }
 
-async function randomGif() {
+async function getRandomGif() {
     const consultaRandom = await fetch(`http://api.giphy.com/v1/gifs/random?api_key=WMgym4yAIPYofgGPrganKNA7n1vg2D5Y`);
     const jsonRandom = await consultaRandom.json();
-    return jsonRandom;
+    return jsonRandom.data;
 }
 //////////////////////
 
@@ -30,7 +31,7 @@ async function loadTrending() {
 
     var gifs = await getTrending(nodesImg.length);
 
-    gifsHastag = await getTitlesOfGifs(gifs);
+    const gifsHastag = await getTitlesOfGifs(gifs, true);
 
     // Inserto los GIFS
     for (contador = 0; contador < nodesImg.length; contador++) {
@@ -43,17 +44,49 @@ async function loadTrending() {
     }
 }
 
-async function getTitlesOfGifs(arrayGifs) {
-    var gifHastag = [];
+async function loadSugest() {
+    nodesImg = document.querySelectorAll('.gif-sugerencia .gif');
+    nodesParrafos = document.querySelectorAll('.descripcion-gif');
 
-    for (contador = 0; contador < arrayGifs.length; contador++) {
-        gifHastag[contador] = ` #${arrayGifs[contador].title.replace(/ /g, " #")}`;
-        let deleteIndex = gifHastag[contador].indexOf('#GIF');
-        gifHastag[contador] = gifHastag[contador].slice(0, deleteIndex);
+    var gifsRandom = [];
+
+    for (let contador = 0; contador < 4; contador++) {
+        gifsRandom.push(await getRandomGif());
     }
-    return gifHastag;
+
+    const gifsHastag = await getTitlesOfGifs(gifsRandom, false);
+
+    for (let contador = 0; contador < 4; contador++) {
+        nodesImg[contador].setAttribute('src', gifsRandom[contador].images.downsized.url);
+        let createParrafo = document.createElement('p');
+        createParrafo.innerHTML = gifsHastag[contador];
+        nodesParrafos[contador].prepend(createParrafo);
+    }
 }
 
+async function getTitlesOfGifs(arrayGifs, cutTitles) {
+    var gifHastag = [];
+
+    if (cutTitles == true) {
+        // Corto el titulo por partes y le inserto a cada parte un hastag.
+        for (contador = 0; contador < arrayGifs.length; contador++) {
+            gifHastag[contador] = ` #${arrayGifs[contador].title.replace(/ /g, " #")}`;
+            let deleteIndex = gifHastag[contador].indexOf('#GIF');
+            gifHastag[contador] = gifHastag[contador].slice(0, deleteIndex);
+        }
+
+    } else {
+        // No corto el titulo por partes y solo le agrego el hastag adelante.
+        for (contador = 0; contador < arrayGifs.length; contador++) {
+            gifHastag[contador] = ` #${arrayGifs[contador].title}`;
+            let deleteIndex = gifHastag[contador].indexOf('#GIF');
+            gifHastag[contador] = gifHastag[contador].slice(0, deleteIndex);
+        }
+
+    }
+
+    return gifHastag;
+}
 
 function barSearch() {
 
@@ -69,11 +102,10 @@ function barSearch() {
         if (valueInput || 0 > valueInput.length) {
             // Traigo resultados de busqueda.
             resultadosGifs = await buscarApi(valueInput);
+            console.log(resultadosGifs);
         } else {
             console.log('ValueInput INVALIDO');
         }
-        const random = await randomGif();
-        console.log(random);
     });
 
 }
