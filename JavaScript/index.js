@@ -1,4 +1,11 @@
 const apiKey = "WMgym4yAIPYofgGPrganKNA7n1vg2D5Y";
+var theme_light = true;
+
+const THEME_ATTRIB_NAME = "theme";
+const THEME_LIGHT = "light";
+const THEME_DARK = "dark";
+
+theme_light ? document.documentElement.setAttribute(THEME_ATTRIB_NAME, THEME_LIGHT) : document.documentElement.setAttribute(THEME_ATTRIB_NAME, THEME_DARK);
 
 barSearch();
 loadTrending();
@@ -30,15 +37,18 @@ async function loadTrending() {
     const nodeParrafos = document.querySelectorAll('.contenedor-hastags');
 
     var gifs = await getTrending(nodesImg.length);
+    console.log(gifs);
 
     const gifsHastag = await getTitlesOfGifs(gifs, true);
 
     // Inserto los GIFS
     for (contador = 0; contador < nodesImg.length; contador++) {
         nodesImg[contador].setAttribute('src', gifs[contador].images.downsized.url);
+        console.log(gifs[contador].images.downsized.url);
 
         let createParrafo = document.createElement('p');
         createParrafo.innerHTML = gifsHastag[contador];
+        createParrafo.setAttribute('class', 'fondo-degradado');
 
         nodeParrafos[contador].appendChild(createParrafo);
     }
