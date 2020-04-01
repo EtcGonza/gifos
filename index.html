@@ -12,17 +12,32 @@
 
 <body>
 
-    <div class="recuadro_bienvenidos-as fondo-degradado">
-        <span class="bienvenidos-as">¡Bienvenidos/as a Guifos.com! ——————Donde los gifs están.////// Número de visitas: 12.765.803</span>
-    </div>
-
     <header>
-        <div class="contenedor contenedor-header flex-spaceBetWeen">
+
+        <div class="recuadro-bienvenidos-as fondo-degradado">
+            <span class="bienvenidos-as">¡Bienvenidos/as a Guifos.com! ——————Donde los gifs están.////// Número de visitas: 12.765.803</span>
+        </div>
+
+        <div class="contenedor flex-spaceBetWeen">
             <img src="/assets/img/gifOF_logo.png" alt="logo_gif-os">
-            <div>
-                <button class="boton_header">Crear Guifos</button>
-                <button class="boton_header">Elegir tema</button>
-                <span class="mis_guifos">Mis Guifos</span>
+
+            <div class="flex-center">
+
+                <button class="crear-guifo boton-header">Crear Guifos</button>
+
+                <div class="botones-temas relative">
+                    <button id="mostrar-temas" class="boton-header">
+                        <span>Elegir tema</span>
+                        <img class="dropdownImg" src="/assets/img/dropdown.svg" alt="dropdown">
+                    </button>
+                    <div class="ventana-temas absolute ocultar">
+                        <button>Sailor Day</button>
+                        <button>Sailor Night</button>
+                    </div>
+                </div>
+
+                <a class="mis-guifos" href="#">Mis Guifos</a>
+
             </div>
         </div>
     </header>
@@ -30,7 +45,7 @@
     <main>
 
         <section>
-            <div class="contenedor seccion_buscar">
+            <div class="contenedor seccion-buscar">
 
                 <p class="fondo-degradado">Buscar</p>
 
@@ -89,55 +104,55 @@
 
                 <div class="grid">
 
-                    <div class="grid-item">
+                    <!-- <div class="grid-item gif-tendencia">
                         <img class="gif" src="https://media2.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif?cid=5968b1699ae40adea55c06a974b26b1a9a901039899cb7cf&rid=giphy.gif" alt="sugerencia_5">
                         <div class="contenedor-hastags"></div>
                     </div>
 
-                    <div class="grid-item">
+                    <div class="grid-item gif-tendencia">
                         <img class="gif" src="https://media2.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif?cid=5968b1699ae40adea55c06a974b26b1a9a901039899cb7cf&rid=giphy.gif" alt="sugerencia_5">
                         <div class="contenedor-hastags"></div>
                     </div>
 
-                    <div class="grid-item">
+                    <div class="grid-item gif-tendencia">
                         <img class="gif" src="https://media2.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif?cid=5968b1699ae40adea55c06a974b26b1a9a901039899cb7cf&rid=giphy.gif" alt="sugerencia_5">
                         <div class="contenedor-hastags"></div>
                     </div>
 
-                    <div class="grid-item">
+                    <div class="grid-item gif-tendencia">
                         <img class="gif" src="https://media2.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif?cid=5968b1699ae40adea55c06a974b26b1a9a901039899cb7cf&rid=giphy.gif" alt="sugerencia_5">
                         <div class="contenedor-hastags"></div>
                     </div>
 
-                    <div class="grid-item expand_1">
+                    <div class="grid-item gif-tendencia expand-1">
                         <img class="gif" src="https://media2.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif?cid=5968b1699ae40adea55c06a974b26b1a9a901039899cb7cf&rid=giphy.gif" alt="sugerencia_5">
                         <div class="contenedor-hastags"></div>
                     </div>
 
-                    <div class="grid-item">
+                    <div class="grid-item gif-tendencia">
                         <img class="gif" src="https://media2.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif?cid=5968b1699ae40adea55c06a974b26b1a9a901039899cb7cf&rid=giphy.gif" alt="sugerencia_5">
                         <div class="contenedor-hastags"></div>
                     </div>
 
-                    <div class="grid-item">
+                    <div class="grid-item gif-tendencia">
                         <img class="gif" src="https://media2.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif?cid=5968b1699ae40adea55c06a974b26b1a9a901039899cb7cf&rid=giphy.gif" alt="sugerencia_5">
                         <div class="contenedor-hastags"></div>
                     </div>
 
-                    <div class="grid-item">
+                    <div class="grid-item gif-tendencia">
                         <img class="gif" src="https://media2.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif?cid=5968b1699ae40adea55c06a974b26b1a9a901039899cb7cf&rid=giphy.gif" alt="sugerencia_5">
                         <div class="contenedor-hastags"></div>
                     </div>
 
-                    <div class="grid-item">
+                    <div class="grid-item gif-tendencia">
                         <img class="gif" src="https://media2.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif?cid=5968b1699ae40adea55c06a974b26b1a9a901039899cb7cf&rid=giphy.gif" alt="sugerencia_5">
                         <div class="contenedor-hastags"></div>
                     </div>
 
-                    <div class="grid-item expand_2">
+                    <div class="grid-item gif-tendencia expand-2">
                         <img class="gif" src="https://media2.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif?cid=5968b1699ae40adea55c06a974b26b1a9a901039899cb7cf&rid=giphy.gif" alt="sugerencia_5">
                         <div class="contenedor-hastags"></div>
-                    </div>
+                    </div> -->
 
                 </div>
             </div>
