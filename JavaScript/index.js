@@ -11,6 +11,8 @@ barSearch();
 clickBotonTemas();
 loadTrending();
 loadSugest();
+changeTemaDay();
+changeTemaNight();
 
 // FUNCIONES DE API //
 async function getTrending(limitGifs) {
@@ -210,11 +212,30 @@ function checkUrlGif(arrayGifImages) {
 
 }
 
+function changeTemaDay() {
+    const boton = document.getElementById('changeToDay');
+    boton.addEventListener('click', () => {
+        document.documentElement.setAttribute(THEME_ATTRIB_NAME, THEME_LIGHT);
+    });
+}
+
+function changeTemaNight() {
+    const boton = document.getElementById('changeToNight');
+    boton.addEventListener('click', () => {
+        document.documentElement.setAttribute(THEME_ATTRIB_NAME, THEME_DARK);
+    });
+}
+
 function clickBotonTemas() {
     const boton = document.getElementById('mostrar-temas');
 
     boton.addEventListener('click', () => {
         var nodesTemas = document.querySelector('.ventana-temas');
-        nodesTemas.classList.replace('ocultar', 'mostrar');
+
+        if (nodesTemas.classList.value.includes('ocultar')) {
+            nodesTemas.classList.replace('ocultar', 'mostrar');
+        } else {
+            nodesTemas.classList.replace('mostrar', 'ocultar');
+        }
     });
 }
