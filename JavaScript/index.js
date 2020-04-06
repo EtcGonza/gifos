@@ -1,18 +1,13 @@
 const apiKey = "WMgym4yAIPYofgGPrganKNA7n1vg2D5Y";
 let theme_light = true;
 
-const THEME_ATTRIB_NAME = "theme";
-const THEME_LIGHT = "light";
-const THEME_DARK = "dark";
-
-theme_light ? document.documentElement.setAttribute(THEME_ATTRIB_NAME, THEME_LIGHT) : document.documentElement.setAttribute(THEME_ATTRIB_NAME, THEME_DARK);
+theme_light ? document.documentElement.setAttribute('theme', 'day') : document.documentElement.setAttribute('theme', 'night');
 
 barSearch();
-clickBotonTemas();
+clickButonTheme();
 loadTrending();
 loadSugest();
-changeTemaDay();
-changeTemaNight();
+changeTheme();
 
 // FUNCIONES DE API //
 async function getTrending(limitGifs) {
@@ -141,15 +136,18 @@ async function loadBusquedas(busqueda) {
     // por el nodo nuevo que estoy creando.
     busquedaVieja.parentElement.replaceChild(nuevaBusqueda, busquedaVieja);
 
-    mostrarBusquedas();
+    showHideSearches(true);
 }
 
-async function getTitlesOfGifs(arrayGifs, cutTitles) {
+async function getTitlesOfGifs(arrayGifs, cortarTitulo) {
     let gifHastag = [];
 
-    if (cutTitles == true) {
+    if (cortarTitulo == true) {
         // Corto el titulo por partes y le inserto a cada parte un hastag.
         for (contador = 0; contador < arrayGifs.length; contador++) {
+
+
+
             gifHastag[contador] = ` #${arrayGifs[contador].title.replace(/ /g, " #")}`;
             let deleteIndex = gifHastag[contador].indexOf('#GIF');
             gifHastag[contador] = gifHastag[contador].slice(0, deleteIndex);
@@ -159,7 +157,7 @@ async function getTitlesOfGifs(arrayGifs, cutTitles) {
         // No corto el titulo por partes y solo le agrego el hastag adelante.
         for (contador = 0; contador < arrayGifs.length; contador++) {
             gifHastag[contador] = ` #${arrayGifs[contador].title}`;
-            let deleteIndex = gifHastag[contador].indexOf('#GIF');
+            let deleteIndex = gifHastag[contador].indexOf('GIF');
             gifHastag[contador] = gifHastag[contador].slice(0, deleteIndex);
         }
 
@@ -177,9 +175,10 @@ function barSearch() {
         valueInput = document.getElementById('input_buscar').value;
 
         // Prevengo de que se realicen consultas vacias.
-        if (valueInput || 0 > valueInput.length) {
+        if (valueInput && valueInput.length > 0) {
             loadBusquedas(valueInput);
         } else {
+            showHideSearches(false);
             console.log('ValueInput INVALIDO');
         }
     });
@@ -224,7 +223,7 @@ function createGridItem(imgSrc, hastagsText, posicionInsertar) {
 }
 
 function checkGifTitle(titleGif) {
-    if (titleGif == ' ') {
+    if (titleGif == ' ' || titleGif == ' #' || titleGif == undefined) {
         return "This Gif doesn't have a title";
     } else {
         return titleGif;
@@ -246,35 +245,34 @@ function checkUrlGif(arrayGifImages) {
 
 }
 
-function changeTemaDay() {
-    const boton = document.getElementById('changeToDay');
-    boton.addEventListener('click', () => {
-        document.documentElement.setAttribute(THEME_ATTRIB_NAME, THEME_LIGHT);
+function changeTheme() {
+    const botonDay = document.getElementById('changeToDay');
+    botonDay.addEventListener('click', () => {
+        document.documentElement.setAttribute('theme', 'day');
+        console.log(document.documentElement.getAttribute());
+    });
+
+    const botonNight = document.getElementById('changeToNight');
+    botonNight.addEventListener('click', () => {
+        document.documentElement.setAttribute('theme', 'night');
     });
 }
 
-function changeTemaNight() {
-    const boton = document.getElementById('changeToNight');
-    boton.addEventListener('click', () => {
-        document.documentElement.setAttribute(THEME_ATTRIB_NAME, THEME_DARK);
-    });
-}
-
-function clickBotonTemas() {
+function clickButonTheme() {
     const boton = document.getElementById('mostrar-temas');
 
     boton.addEventListener('click', () => {
         var nodesTemas = document.querySelector('.ventana-temas');
-
-        if (nodesTemas.classList.value.includes('ocultar')) {
-            nodesTemas.classList.replace('ocultar', 'mostrar');
-        } else {
-            nodesTemas.classList.replace('mostrar', 'ocultar');
-        }
+        nodesTemas.classList.toggle('ocultar');
     });
 }
 
-function mostrarOcultarBusquedas() {
+function showHideSearches(mostrar) {
     let contenedorBusquedaNode = document.querySelector('.contenedor-busquedas');
-    contenedorBusquedaNode.classList.replace('ocultar', 'mostrar');
+
+    if (mostrar) {
+        contenedorBusquedaNode.classList.replace('ocultar', 'mostrar');
+    } else {
+        contenedorBusquedaNode.classList.replace('mostrar', 'ocultar');
+    }
 }

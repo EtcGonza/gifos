@@ -1,4 +1,4 @@
-:root[theme='light'] {
+:root[theme='day'] {
     --color-background: var(--color09);
     --color-text: var(--color03);
     --color01: #F7C9F3;
@@ -18,7 +18,7 @@
     --color15: #80687D;
 }
 
-:root[theme='dark'] {
+:root[theme='night'] {
     --color-background: var(--color03);
     --color01: #EE3EFE;
     --color02: #2E32FB;
