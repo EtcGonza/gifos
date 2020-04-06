@@ -29,9 +29,9 @@ async function getTrending(limitGifs) {
 async function buscarApi(searchParam) {
     const consultaSearch = await fetch(`http://api.giphy.com/v1/gifs/search?q=${searchParam}&api_key=WMgym4yAIPYofgGPrganKNA7n1vg2D5Y`);
 
-    if (consulta.ok) {
+    if (consultaSearch.ok) {
         const jsonSearch = await consultaSearch.json();
-        return jsonSearch;
+        return jsonSearch.data;
     } else {
         console.log('Error al traer buscar.');
     }
@@ -79,7 +79,7 @@ async function loadSugest() {
 }
 
 async function loadTrending() {
-    let tendenciasNodes = document.querySelector('.grid');
+    let tendenciasNodes = document.querySelector('.trending');
     let posicion = 'izquierda';
     let gifs = await getTrending(34);
     const gifsHastag = await getTitlesOfGifs(gifs, true);
@@ -104,6 +104,44 @@ async function loadTrending() {
             bandera++;
         }
     }
+}
+
+async function loadBusquedas(busqueda) {
+    let busquedaVieja = document.querySelector('.resultado-busqueda');
+    let nuevaBusqueda = document.createElement('div');
+    nuevaBusqueda.setAttribute('class', 'grid resultado-busqueda');
+
+    let resultadoGifs = await buscarApi(busqueda);
+    const gifsHastag = await getTitlesOfGifs(resultadoGifs, true);
+
+    // Inserto los GIFS
+    let posicion = 'izquierda';
+    for (contador = 0, bandera = 1; contador < resultadoGifs.length; contador++) {
+        let urlChequeada = checkUrlGif(resultadoGifs[contador].images);
+
+        if (bandera == 5 && posicion == 'izquierda') {
+            bandera = 1;
+            posicion = 'derecha';
+            const nuevoNodo = createGridItem(urlChequeada, gifsHastag[contador], 'izquierda');
+            nuevaBusqueda.appendChild(nuevoNodo);
+        } else if (bandera == 5 && posicion == 'derecha') {
+            bandera = 1;
+            posicion = 'izquierda';
+            const nuevoNodo = createGridItem(urlChequeada, gifsHastag[contador], 'derecha');
+            nuevaBusqueda.appendChild(nuevoNodo);
+        } else {
+            const nuevoNodo = createGridItem(urlChequeada, gifsHastag[contador]);
+            nuevaBusqueda.appendChild(nuevoNodo);
+            bandera++;
+        }
+    }
+
+    // Hago esto para que siempre el nodo viejo 
+    // que tiene las busquedas se reemplace
+    // por el nodo nuevo que estoy creando.
+    busquedaVieja.parentElement.replaceChild(nuevaBusqueda, busquedaVieja);
+
+    mostrarBusquedas();
 }
 
 async function getTitlesOfGifs(arrayGifs, cutTitles) {
@@ -131,9 +169,7 @@ async function getTitlesOfGifs(arrayGifs, cutTitles) {
 }
 
 function barSearch() {
-
     const boton = document.getElementById('boton-buscar');
-    let resultadosGifs = [];
     let valueInput = null;
 
     boton.addEventListener('click', async() => {
@@ -142,9 +178,7 @@ function barSearch() {
 
         // Prevengo de que se realicen consultas vacias.
         if (valueInput || 0 > valueInput.length) {
-            // Traigo resultados de busqueda.
-            resultadosGifs = await buscarApi(valueInput);
-            console.log(resultadosGifs);
+            loadBusquedas(valueInput);
         } else {
             console.log('ValueInput INVALIDO');
         }
@@ -238,4 +272,9 @@ function clickBotonTemas() {
             nodesTemas.classList.replace('mostrar', 'ocultar');
         }
     });
+}
+
+function mostrarOcultarBusquedas() {
+    let contenedorBusquedaNode = document.querySelector('.contenedor-busquedas');
+    contenedorBusquedaNode.classList.replace('ocultar', 'mostrar');
 }

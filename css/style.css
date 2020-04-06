@@ -152,9 +152,10 @@ button:hover,
     display: none;
 }
 
-.mostrar {
+
+/* .mostrar {
     display: inline;
-}
+} */
 
 .relative {
     position: relative;
