@@ -68,6 +68,7 @@ async function loadSugest() {
 
         let createParrafo = document.createElement('p');
         createParrafo.innerHTML = checkGifTitle(arrayGifsHastag[contador]);
+        createParrafo.setAttribute('class', 'estiloTituloGif');
 
         nodesParrafos[contador].prepend(createParrafo);
     }
@@ -81,6 +82,7 @@ async function loadTrending() {
 
     // Inserto los GIFS
     for (contador = 0, bandera = 1; contador < gifs.length; contador++) {
+        console.log(gifs[contador].images.original);
         let urlChequeada = checkUrlGif(gifs[contador].images);
 
         if (bandera == 5 && posicion == 'izquierda') {
@@ -197,7 +199,7 @@ function createGridItem(imgSrc, hastagsText, posicionInsertar) {
 
     let parrafoTag = document.createElement('p');
     parrafoTag.innerHTML = checkGifTitle(hastagsText);
-    parrafoTag.setAttribute('class', 'fondo-degradado');
+    parrafoTag.setAttribute('class', 'fondo-degradado estiloTituloGif');
 
     if (posicionInsertar == undefined) {
         divContenedor.setAttribute('class', 'grid-item gif-tendencia');
