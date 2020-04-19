@@ -134,7 +134,7 @@ async function loadBusquedas(busqueda) {
     }
 
     // Hago esto para que siempre el nodo viejo 
-    // que tiene las busquedas se reemplace
+    // que contiene las busquedas se reemplace
     // por el nodo nuevo que estoy creando.
     busquedaVieja.parentElement.replaceChild(nuevaBusqueda, busquedaVieja);
 
@@ -195,11 +195,11 @@ function createGridItem(imgSrc, hastagsText, posicionInsertar) {
     imgTag.setAttribute('src', imgSrc);
 
     let divHastag = document.createElement('div');
-    divHastag.setAttribute('class', 'contenedor-hastags');
+    divHastag.setAttribute('class', 'contenedor-gif relative');
 
     let parrafoTag = document.createElement('p');
     parrafoTag.innerHTML = checkGifTitle(hastagsText);
-    parrafoTag.setAttribute('class', 'fondo-degradado estiloTituloGif');
+    parrafoTag.setAttribute('class', 'fondo-degradado estiloTituloGif absolute');
 
     if (posicionInsertar == undefined) {
         divContenedor.setAttribute('class', 'grid-item gif-tendencia');
@@ -207,17 +207,17 @@ function createGridItem(imgSrc, hastagsText, posicionInsertar) {
 
     } else if (posicionInsertar.toLocaleLowerCase() == 'derecha') {
         divContenedor.setAttribute('class', 'grid-item gif-tendencia expand-derecha');
-        imgTag.setAttribute('class', 'gif-expand');
+        imgTag.setAttribute('class', 'gif gif-expand');
 
     } else if (posicionInsertar.toLocaleLowerCase() == 'izquierda') {
         divContenedor.setAttribute('class', 'grid-item gif-tendencia expand-izquierda');
-        imgTag.setAttribute('class', 'gif-expand');
+        imgTag.setAttribute('class', 'gif gif-expand');
 
     } else {
         console.log('Estas pasando cualquier cosa amigo.');
     }
 
-    divContenedor.appendChild(imgTag);
+    divHastag.appendChild(imgTag);
     divContenedor.appendChild(divHastag);
     divHastag.appendChild(parrafoTag);
 
@@ -248,15 +248,18 @@ function checkUrlGif(arrayGifImages) {
 }
 
 function changeTheme() {
+    let logoGifNode = document.querySelector('.logo-gif');
+
     const botonDay = document.getElementById('changeToDay');
     botonDay.addEventListener('click', () => {
         document.documentElement.setAttribute('theme', 'day');
-        console.log(document.documentElement.getAttribute());
+        logoGifNode.setAttribute('src', '/assets/img/gifOF_logo_day.png');
     });
 
     const botonNight = document.getElementById('changeToNight');
     botonNight.addEventListener('click', () => {
         document.documentElement.setAttribute('theme', 'night');
+        logoGifNode.setAttribute('src', '/assets/img/gifOF_logo_night.png');
     });
 }
 

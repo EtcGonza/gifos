@@ -28,6 +28,16 @@
     --color13: #B4B4B4;
     --color14: #E6E6E6;
     --color15: #80687D;
+    --color1-box-shadow-caja-texto: #E6DCE4;
+    --color2-box-shadow-caja-texto: #80687D;
+    --color1-box-shadow-button: #997D97;
+    --color2-box-shadow-button: #FFFFFF;
+    --color1-box-shadow-buscar: #B4B4B4;
+    --color2-box-shadow-buscar: #FFFFFF;
+    --color1-box-shadow-button-buscar-active: #997D97;
+    --color2-box-shadow-button-buscar-active: #FFFFFF;
+    --color1-box-shadow-button-buscar-normal: #B4B4B4;
+    --color2-box-shadow-button-buscar-normal: #FFFFFF;
 }
 
 :root[theme='night'] {
@@ -59,6 +69,16 @@
     --color12: rgba(51, 53, 143, 0.20);
     --color13: #E6DCE4;
     --color14: #B4B4B4;
+    --color1-box-shadow-caja-texto: #E6DCE4;
+    --color2-box-shadow-caja-texto: #110038;
+    --color1-box-shadow-button: #A72CB3;
+    --color2-box-shadow-button: #FFFFFF;
+    --color1-box-shadow-buscar: #8F8F8F;
+    --color2-box-shadow-buscar: #FFFFFF;
+    --color1-box-shadow-button-buscar-active: #A72CB3;
+    --color2-box-shadow-button-buscar-active: #FFFFFF;
+    --color1-box-shadow-button-buscar-normal: #B4B4B4;
+    --color2-box-shadow-button-buscar-normal: #FFFFFF;
 }
 
 :root {
@@ -107,7 +127,7 @@ section {
     padding: 5px;
     background-color: #FFFAFE;
     border: 1px solid var(--color07);
-    box-shadow: inset -2px -2px 0 0 var(--color11), inset 2px 2px 0 0 var(--color15);
+    box-shadow: inset -2px -2px 0 0 var(--color1-box-shadow-caja-texto), inset 2px 2px 0 0 var(--color2-box-shadow-caja-texto);
     margin-bottom: 19px;
     color: var(--color-caja-texto);
 }
@@ -121,7 +141,7 @@ section {
 .gif-expand {
     max-width: 100%;
     width: 100%;
-    height: 296px;
+    height: 290px;
     background-color: var(--color01);
 }
 
@@ -134,11 +154,11 @@ button {
 }
 
 button:hover,
+button:active,
 .gif:hover {
     background: var(--color-hover-button);
     outline: var(--color03) dotted 1px;
     outline-offset: -4px;
-    box-shadow: inset -1px -1px 0 0 var(--color04), inset 1px 1px 0 0 #FFFFFF;
 }
 
 .estiloTituloGif {
@@ -155,7 +175,6 @@ button:hover,
 
 .recuadro-bienvenidos-as {
     margin: 1px;
-    box-shadow: 0 1px 0 0;
     margin-bottom: 44px;
 }
 
@@ -174,12 +193,9 @@ button:hover,
     color: var(--color-text-button);
     background-color: var(--color01);
     border: 1px solid var(--color03);
-    box-shadow: inset -1px -1px 0 0 var(--color04), inset 1px 1px 0 0 var(--color05);
+    box-shadow: inset -1px -1px 0 0 var(--color1-box-shadow-button), inset 1px 1px 0 0 var(--color2-box-shadow-button);
     width: 144px;
     height: 36px;
-}
-
-.crear-guifo {
     margin-right: 16px;
 }
 
@@ -248,25 +264,15 @@ button:hover,
 
 /* CUADRO DE BUSCAR */
 
-.margin {
-    margin: 55px 5px 5px 5px;
-}
-
 .seccion-buscar {
     background-color: var(--color-background-ventanas);
-    box-shadow: inset -2px -2px 0 0 var(--color13), inset 2px 2px 0 0 var(--color05);
+    box-shadow: inset -2px -2px 0 0 var(--color1-box-shadow-buscar), inset 2px 2px 0 0 var(--color2-box-shadow-buscar);
     height: 99px;
-}
-
-.contenedor-buscador {
-    width: 98%;
-    justify-content: center;
-    align-items: center;
 }
 
 .ventana-buscar {
     margin: 0 auto;
-    max-width: calc(100% - 5px);
+    max-width: calc(100% - 4px);
 }
 
 input {
@@ -291,7 +297,7 @@ input {
 #boton-buscar {
     background-color: var(--color-background-ventanas);
     border: 1px solid var(--color12);
-    box-shadow: inset -1px -1px 0 0 var(--color13), inset 1px 1px 0 0 var(--color05);
+    box-shadow: inset -1px -1px 0 0 var(--color1-box-shadow-button-buscar-normal), inset 1px 1px 0 0 var(--color2-box-shadow-button-buscar-normal);
     height: 36px;
     width: 102px;
     color: var(--color-button-buscar);
@@ -355,11 +361,21 @@ div.estilo-windowFrame {
 .grid-item {
     position: relative;
     width: 100%;
+    height: 300px;
+    padding: 5px;
 }
 
-div.contenedor-hastags {
-    position: absolute;
-    width: 100%;
+.grid-item:hover {
+    background: var(--color-background-ventanas);
+    box-shadow: inset -2px -2px 0 0 var(--color13), inset 2px 2px 0 0 var(--color05);
+    z-index: 100000;
+}
+
+div.contenedor-gif {
+    height: 100%;
+}
+
+div.contenedor-gif p {
     bottom: 0px;
 }
 
