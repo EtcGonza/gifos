@@ -12,6 +12,7 @@
     --color-button-theme-night: #F0F0F0;
     --color-button-buscar: #B4B4B4;
     --color-caja-texto: #110038;
+    --color-text-misGuifos: #110038;
     --color01: #F7C9F3;
     --color02: #4180F6;
     --color03: #110038;
@@ -43,6 +44,7 @@
     --color-button-theme-night: #2E32FB;
     --color-button-buscar: #8F8F8F;
     --color-caja-texto: #110038;
+    --color-text-misGuifos: #FFFFFF;
     --color01: #EE3EFE;
     --color02: #2E32FB;
     --color03: #110038;
@@ -237,7 +239,7 @@ button:hover,
 .mis-guifos {
     font-size: 16px;
     margin-left: 10px;
-    color: var(--color-text);
+    color: var(--color-text-misGuifos);
 }
 
 
@@ -246,19 +248,14 @@ button:hover,
 
 /* CUADRO DE BUSCAR */
 
+.margin {
+    margin: 55px 5px 5px 5px;
+}
+
 .seccion-buscar {
     background-color: var(--color-background-ventanas);
     box-shadow: inset -2px -2px 0 0 var(--color13), inset 2px 2px 0 0 var(--color05);
-    margin-top: 16px;
     height: 99px;
-}
-
-div.ventana-buscar {
-    margin: 0 auto;
-}
-
-.ventana-buscar p {
-    padding-left: 3px;
 }
 
 .contenedor-buscador {
@@ -267,10 +264,14 @@ div.ventana-buscar {
     align-items: center;
 }
 
+.ventana-buscar {
+    margin: 0 auto;
+    max-width: calc(100% - 5px);
+}
+
 input {
     border: 1px solid #979797;
     box-shadow: inset -2px -2px 0 0 var(--color14), inset 2px 2px 0 0 #000000;
-    /* max-width: 1057px; */
     width: 100%;
     height: 48px;
     margin-right: 8px;
@@ -284,7 +285,7 @@ input {
 
 .seccion-buscar p {
     font-weight: bold;
-    margin: 2px 2px 2px 2px;
+    margin-left: 5px;
 }
 
 #boton-buscar {
@@ -294,6 +295,7 @@ input {
     height: 36px;
     width: 102px;
     color: var(--color-button-buscar);
+    font-size: 16px;
 }
 
 
