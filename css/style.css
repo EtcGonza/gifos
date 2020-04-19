@@ -261,17 +261,25 @@ div.ventana-buscar {
     padding-left: 3px;
 }
 
+.contenedor-buscador {
+    width: 98%;
+    justify-content: center;
+    align-items: center;
+}
+
 input {
     border: 1px solid #979797;
     box-shadow: inset -2px -2px 0 0 var(--color14), inset 2px 2px 0 0 #000000;
-    max-width: 1057px;
-    width: 80%;
+    /* max-width: 1057px; */
+    width: 100%;
     height: 48px;
     margin-right: 8px;
+    text-indent: 10px;
 }
 
 .buscador {
-    margin-top: 14px;
+    margin: 14px auto;
+    width: 98%;
 }
 
 .seccion-buscar p {
