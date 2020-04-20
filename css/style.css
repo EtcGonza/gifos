@@ -34,10 +34,14 @@
     --color2-box-shadow-button: #FFFFFF;
     --color1-box-shadow-buscar: #B4B4B4;
     --color2-box-shadow-buscar: #FFFFFF;
-    --color1-box-shadow-button-buscar-active: #997D97;
-    --color2-box-shadow-button-buscar-active: #FFFFFF;
+    --color-button-buscar-con-valor: #F7C9F3;
+    --color-text-button-buscar-con-valor: #110038;
+    --color1-box-shadow-button-buscar-valor: #997D97;
+    --color2-box-shadow-button-buscar-valor: #FFFFFF;
     --color1-box-shadow-button-buscar-normal: #B4B4B4;
     --color2-box-shadow-button-buscar-normal: #FFFFFF;
+    --color-button-buscar-sin-valor: #E6E6E6;
+    --color-text-button-buscar-sin-valor: #B4B4B4;
 }
 
 :root[theme='night'] {
@@ -75,8 +79,12 @@
     --color2-box-shadow-button: #FFFFFF;
     --color1-box-shadow-buscar: #8F8F8F;
     --color2-box-shadow-buscar: #FFFFFF;
-    --color1-box-shadow-button-buscar-active: #A72CB3;
-    --color2-box-shadow-button-buscar-active: #FFFFFF;
+    --color-button-buscar-con-valor: #EE3EFE;
+    --color-text-button-buscar-con-valor: #FFFFFF;
+    --color-button-buscar-sin-valor: #B4B4B4;
+    --color-text-button-buscar-sin-valor: #8F8F8F;
+    --color1-box-shadow-button-buscar-valor: #A72CB3;
+    --color2-box-shadow-button-buscar-valor: #FFFFFF;
     --color1-box-shadow-button-buscar-normal: #B4B4B4;
     --color2-box-shadow-button-buscar-normal: #FFFFFF;
 }
@@ -368,7 +376,6 @@ div.estilo-windowFrame {
 .grid-item:hover {
     background: var(--color-background-ventanas);
     box-shadow: inset -2px -2px 0 0 var(--color13), inset 2px 2px 0 0 var(--color05);
-    z-index: 100000;
 }
 
 div.contenedor-gif {
@@ -377,6 +384,7 @@ div.contenedor-gif {
 
 div.contenedor-gif p {
     bottom: 0px;
+    display: none;
 }
 
 .expand-izquierda {

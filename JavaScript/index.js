@@ -3,11 +3,14 @@ let theme_light = true;
 
 theme_light ? document.documentElement.setAttribute('theme', 'day') : document.documentElement.setAttribute('theme', 'night');
 
+checkStorageTheme();
 barSearch();
 clickButonTheme();
 loadTrending();
 loadSugest();
 changeTheme();
+// hoverParagraph();
+changeButtonSearchTheme();
 
 // FUNCIONES DE API //
 async function getTrending(limitGifs) {
@@ -82,7 +85,6 @@ async function loadTrending() {
 
     // Inserto los GIFS
     for (contador = 0, bandera = 1; contador < gifs.length; contador++) {
-        console.log(gifs[contador].images.original);
         let urlChequeada = checkUrlGif(gifs[contador].images);
 
         if (bandera == 5 && posicion == 'izquierda') {
@@ -181,10 +183,38 @@ function barSearch() {
             loadBusquedas(valueInput);
         } else {
             showHideSearches(false);
-            console.log('ValueInput INVALIDO');
         }
     });
+}
 
+function changeButtonSearchTheme() {
+    let value = document.getElementById('input_buscar').value;
+    const boton = document.getElementById('boton-buscar');
+    const lupaIcon = document.querySelector('.icono-lupa');
+
+    const activeTheme = getActiveTheme();
+
+    var styles = getComputedStyle(document.documentElement);
+    const backgroundColor = styles.getPropertyValue('--color-button-buscar-con-valor');
+    const color = styles.getPropertyValue('--color-text-button-buscar-con-valor');
+
+    const backgroundColorNormal = styles.getPropertyValue('--color-button-buscar-sin-valor');
+    const colorNormal = styles.getPropertyValue('--color-text-button-buscar-sin-valor');
+
+    if (value != "") {
+        boton.style.backgroundColor = backgroundColor;
+        boton.style.color = color;
+
+        if (activeTheme == 'night') {
+            lupaIcon.setAttribute('src', '/assets/img/lupa_light.svg');
+
+        } else {
+            lupaIcon.setAttribute('src', '/assets/img/lupa.svg');
+        }
+    } else {
+        boton.style.backgroundColor = backgroundColorNormal;
+        boton.style.color = colorNormal;
+    }
 }
 
 function createGridItem(imgSrc, hastagsText, posicionInsertar) {
@@ -254,13 +284,39 @@ function changeTheme() {
     botonDay.addEventListener('click', () => {
         document.documentElement.setAttribute('theme', 'day');
         logoGifNode.setAttribute('src', '/assets/img/gifOF_logo_day.png');
+        localStorage.setItem('theme', 'day');
+        changeButtonSearchTheme();
+
     });
 
     const botonNight = document.getElementById('changeToNight');
     botonNight.addEventListener('click', () => {
         document.documentElement.setAttribute('theme', 'night');
         logoGifNode.setAttribute('src', '/assets/img/gifOF_logo_night.png');
+        localStorage.setItem('theme', 'night');
+        changeButtonSearchTheme();
+
     });
+
+}
+
+async function checkStorageTheme() {
+    const storageTheme = await localStorage.getItem('theme');
+    let logoGifNode = document.querySelector('.logo-gif');
+
+    if (storageTheme == 'day') {
+        document.documentElement.setAttribute('theme', 'day');
+        logoGifNode.setAttribute('src', '/assets/img/gifOF_logo_day.png');
+        changeButtonSearchTheme();
+    } else if (storageTheme == 'night') {
+        document.documentElement.setAttribute('theme', 'night');
+        logoGifNode.setAttribute('src', '/assets/img/gifOF_logo_night.png');
+        changeButtonSearchTheme();
+    } else {
+        document.documentElement.setAttribute('theme', 'day');
+        logoGifNode.setAttribute('src', '/assets/img/gifOF_logo_day.png');
+        changeButtonSearchTheme();
+    }
 }
 
 function clickButonTheme() {
@@ -281,3 +337,14 @@ function showHideSearches(mostrar) {
         contenedorBusquedaNode.classList.replace('mostrar', 'ocultar');
     }
 }
+
+function getActiveTheme() {
+    const themeActive = document.documentElement.getAttribute('theme');
+    return themeActive;
+}
+
+// function hoverParagraph() {
+//     querySelector('div.contenedor-gif').addEventListener('mouseover', function() {
+//         console.log('sobre');
+//     });
+// }

@@ -51,7 +51,7 @@
                 </div>
 
                 <div class="buscador flex-center">
-                    <input id="input_buscar" type="text" placeholder="Busca gifs, hashtags, temas, busca lo que quieras…">
+                    <input id="input_buscar" oninput="changeButtonSearchTheme()" type="text" placeholder="Busca gifs, hashtags, temas, busca lo que quieras…">
 
                     <button id="boton-buscar">
                             <img class="icono-lupa" src="/assets/img/Combined Shape.svg" alt="lupa_svg">
@@ -88,7 +88,6 @@
                         <div class="contenedor-titulo-gif">
                             <div class="descripcion-gif estiloTituloGif flex-spaceBetWeen fondo-degradado">
                                 <img class="cruz" src="/assets/img/cruz.svg" alt="cruz">
-
                             </div>
                         </div>
                         <img class="gif" src="https://media2.giphy.com/media/3oEjI6SIIHBdRxXI40/giphy.gif?cid=5968b1699ae40adea55c06a974b26b1a9a901039899cb7cf&rid=giphy.gif" alt="sugerencia_1">
