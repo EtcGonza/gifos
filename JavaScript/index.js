@@ -206,14 +206,21 @@ function changeButtonSearchTheme() {
         boton.style.color = color;
 
         if (activeTheme == 'night') {
-            lupaIcon.setAttribute('src', '/assets/img/lupa_light.svg');
+            lupaIcon.setAttribute('src', '/assets/img/lupa_value_nigth.svg');
 
         } else {
-            lupaIcon.setAttribute('src', '/assets/img/lupa.svg');
+            lupaIcon.setAttribute('src', '/assets/img/lupa_value_ligth.svg');
         }
     } else {
         boton.style.backgroundColor = backgroundColorNormal;
         boton.style.color = colorNormal;
+
+        if (activeTheme == 'night') {
+            lupaIcon.setAttribute('src', '/assets/img/lupa_inactive_nigth.svg');
+
+        } else {
+            lupaIcon.setAttribute('src', '/assets/img/lupa_inactive_ligth.svg');
+        }
     }
 }
 
