@@ -231,10 +231,6 @@ button:active,
 
 /* BOTON DE TEMAS */
 
-.ocultar {
-    display: none;
-}
-
 .relative {
     position: relative;
 }
@@ -472,3 +468,7 @@ div.expand-2 img {
 
 
 /* FIN TENDENCIAS */
+
+.ocultar {
+    display: none !important;
+}

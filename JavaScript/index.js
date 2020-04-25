@@ -168,7 +168,7 @@ async function getTitlesOfGifs(arrayGifs, cortarTitulo) {
 
 function getInputChanges() {
     changeButtonSearchTheme();
-
+    mostrarSugerencias();
 
 }
 
@@ -262,7 +262,6 @@ function showHideSearches(mostrar) {
 }
 
 function changeButtonSearchTheme() {
-
     let value = document.getElementById('input_buscar').value;
     const buttonObjTheme = getButtonObjTheme();
 
@@ -359,12 +358,39 @@ function eventListenerBarSearch() {
         // Prevengo de que se realicen consultas vacias.
         if (valueInput && valueInput.length > 0) {
             loadBusquedas(valueInput);
-        } else {
-            showHideSearches(false);
         }
     });
 }
 
-function getSugerencias() {
+async function getSugerencias(value) {
+    const consulta = await fetch(`http://api.datamuse.com/sug?max=3&s=${value}`);
+    const dataSugerencias = await consulta.json();
+    return dataSugerencias;
+}
 
+async function mostrarSugerencias() {
+    let value = document.getElementById('input_buscar').value;
+    const buttonsNodes = document.querySelectorAll('button.button-sugerencia');
+    const divSugerencias = document.querySelector('div.sugerencias-busqueda');
+
+    if (value.length > 3) {
+        // Consulto por sugerencias
+        const sugerencias = await getSugerencias(value);
+        // Muestro el div que contiene los botones
+        divSugerencias.classList.replace('ocultar', 'mostar');
+
+        for (contador = 0; contador < sugerencias.length; contador++) {
+            // A cada boton le inserto el texto que recibo como sugerencia.
+            // Al boton que le estoy insertando le agrego la clase mostrar.
+            // Asi evito que se muestren botones vacios.
+            buttonsNodes[contador].classList.replace('ocultar', 'mostrar');
+            buttonsNodes[contador].innerHTML = sugerencias[contador].word;
+        }
+    } else {
+        // Oculto todos los botones y el div que los contiene.
+        for (contador = 0; contador < buttonsNodes.length; contador++) {
+            divSugerencias.setAttribute('class', 'sugerencias-busqueda ocultar');
+            buttonsNodes[contador].classList.replace('mostrar', 'ocultar');
+        }
+    }
 }
