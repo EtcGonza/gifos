@@ -42,6 +42,11 @@
     --color2-box-shadow-button-buscar-normal: #FFFFFF;
     --color-button-buscar-sin-valor: #E6E6E6;
     --color-text-button-buscar-sin-valor: #B4B4B4;
+    --color-button-ver-mas: #4180F6;
+    --color-button-ver-mas-hover: #3A72DB;
+    --color1-box-shadow-button-ver-mas: #284F99;
+    --color2-box-shadow-button-ver-mas: #FFFFFF;
+    --color2-border-button-ver-mas: #4C2F99;
 }
 
 :root[theme='night'] {
@@ -87,6 +92,11 @@
     --color2-box-shadow-button-buscar-valor: #FFFFFF;
     --color1-box-shadow-button-buscar-normal: #B4B4B4;
     --color2-box-shadow-button-buscar-normal: #FFFFFF;
+    --color-button-ver-mas: #2E32FB;
+    --color-button-ver-mas-hover: #2629CC;
+    --color1-box-shadow-button-ver-mas: #2124B3;
+    --color2-box-shadow-button-ver-mas: #FFFFFF;
+    --color2-border-button-ver-mas: #4C2F99;
 }
 
 :root {
@@ -350,6 +360,21 @@ div.estilo-windowFrame {
     height: 20px;
     width: 16px;
     margin-right: 3px;
+}
+
+button.ver-mas {
+    color: #FFFFFF;
+    background-color: var(--color-button-ver-mas);
+    box-shadow: inset -0.5px -0.5px 0 0 var(--color1-box-shadow-button-ver-mas), inset 1px 1px 0 0 var(--color2-box-shadow-button-ver-mas);
+    width: 81px;
+    height: 34px;
+    border: 1px solid var(--color2-border-button-ver-mas);
+    left: 14px;
+    bottom: 13px;
+}
+
+button.ver-mas:hover {
+    background-color: var(--color-button-ver-mas-hover);
 }
 
 
