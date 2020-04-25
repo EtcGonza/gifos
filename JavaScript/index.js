@@ -9,7 +9,6 @@ clickButonTheme();
 loadTrending();
 loadSugest();
 changeTheme();
-// hoverParagraph();
 changeButtonSearchTheme();
 
 // FUNCIONES DE API //
@@ -236,7 +235,7 @@ function createGridItem(imgSrc, hastagsText, posicionInsertar) {
 
     let parrafoTag = document.createElement('p');
     parrafoTag.innerHTML = checkGifTitle(hastagsText);
-    parrafoTag.setAttribute('class', 'fondo-degradado estiloTituloGif absolute');
+    parrafoTag.setAttribute('class', 'fondo-degradado estiloTituloGif absolute hastags');
 
     if (posicionInsertar == undefined) {
         divContenedor.setAttribute('class', 'grid-item gif-tendencia');
@@ -349,9 +348,3 @@ function getActiveTheme() {
     const themeActive = document.documentElement.getAttribute('theme');
     return themeActive;
 }
-
-// function hoverParagraph() {
-//     querySelector('div.contenedor-gif').addEventListener('mouseover', function() {
-//         console.log('sobre');
-//     });
-// }

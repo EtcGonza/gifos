@@ -412,6 +412,10 @@ div.contenedor-gif p {
     display: none;
 }
 
+.gif-tendencia img:hover+p.hastags {
+    display: block;
+}
+
 .expand-izquierda {
     grid-column: 1/3;
 }
