@@ -47,6 +47,11 @@
     --color1-box-shadow-button-ver-mas: #284F99;
     --color2-box-shadow-button-ver-mas: #FFFFFF;
     --color2-border-button-ver-mas: #4C2F99;
+    --color-button-sugerencia: #F0F0F0;
+    --color-button-sugerencia-hover: #DBDBDB;
+    --color1-box-shadow-button-sugerencia: #B4B4B4;
+    --color2-box-shadow-button-sugerencia: #FFFFFF;
+    --color-border-button-sugerencia: #808080;
 }
 
 :root[theme='night'] {
@@ -97,6 +102,11 @@
     --color1-box-shadow-button-ver-mas: #2124B3;
     --color2-box-shadow-button-ver-mas: #FFFFFF;
     --color2-border-button-ver-mas: #4C2F99;
+    --color-button-sugerencia: #CCCCCC;
+    --color-button-sugerencia-hover: #CCCCCC;
+    --color1-box-shadow-button-sugerencia: #B4B4B4;
+    --color2-box-shadow-button-sugerencia: #FFFFFF;
+    --color-border-button-sugerencia: #808080;
 }
 
 :root {
@@ -192,8 +202,9 @@ button:active,
 /* HEADER */
 
 .recuadro-bienvenidos-as {
-    margin: 1px;
-    margin-bottom: 44px;
+    margin: 0.5px;
+    margin-bottom: 35px;
+    box-shadow: 0 1px 0 0 var(--color03);
 }
 
 .bienvenidos-as {
@@ -285,7 +296,7 @@ button:active,
 .seccion-buscar {
     background-color: var(--color-background-ventanas);
     box-shadow: inset -2px -2px 0 0 var(--color1-box-shadow-buscar), inset 2px 2px 0 0 var(--color2-box-shadow-buscar);
-    height: 99px;
+    min-height: 99px;
 }
 
 .ventana-buscar {
@@ -320,6 +331,36 @@ input {
     width: 102px;
     color: var(--color-button-buscar);
     font-size: 16px;
+}
+
+.sugerencias-busqueda {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    width: 100%;
+    background-color: var(--color1-box-shadow-button-ver-mas);
+    background-color: var(--color-background-ventanas);
+    box-shadow: inset -2px -2px 0 0 var(--color1-box-shadow-buscar), inset 2px 2px 0 0 var(--color2-box-shadow-buscar);
+}
+
+.button-sugerencia {
+    color: var(--color03);
+    font-size: 16px;
+    padding: 8px;
+    text-align: left;
+    width: 92%;
+    margin-bottom: 10px;
+    background-color: var(--color-button-sugerencia);
+    border: 1px solid var(--color-border-button-sugerencia);
+    box-shadow: inset -1px -1px 0 0 var(--color1-box-shadow-button-sugerencia), inset 1px 1px 0 0 var(--color2-box-shadow-button-sugerencia);
+}
+
+.button-sugerencia:last-of-type {
+    margin-bottom: 0px;
+}
+
+.button-sugerencia:hover {
+    background-color: var(--color-button-sugerencia-hover);
 }
 
 

@@ -4,12 +4,12 @@ let theme_light = true;
 theme_light ? document.documentElement.setAttribute('theme', 'day') : document.documentElement.setAttribute('theme', 'night');
 
 checkStorageTheme();
-barSearch();
-clickButonTheme();
+eventListenerBarSearch();
+eventListenerClickButonTheme();
 loadTrending();
 loadSugest();
-changeTheme();
-changeButtonSearchTheme();
+eventListenerChangeTheme();
+getInputChanges();
 
 // FUNCIONES DE API //
 async function getTrending(limitGifs) {
@@ -148,9 +148,6 @@ async function getTitlesOfGifs(arrayGifs, cortarTitulo) {
     if (cortarTitulo == true) {
         // Corto el titulo por partes y le inserto a cada parte un hastag.
         for (contador = 0; contador < arrayGifs.length; contador++) {
-
-
-
             gifHastag[contador] = ` #${arrayGifs[contador].title.replace(/ /g, " #")}`;
             let deleteIndex = gifHastag[contador].indexOf('#GIF');
             gifHastag[contador] = gifHastag[contador].slice(0, deleteIndex);
@@ -169,58 +166,10 @@ async function getTitlesOfGifs(arrayGifs, cortarTitulo) {
     return gifHastag;
 }
 
-function barSearch() {
-    const boton = document.getElementById('boton-buscar');
-    let valueInput = null;
+function getInputChanges() {
+    changeButtonSearchTheme();
 
-    boton.addEventListener('click', async() => {
-        // Get value del input.
-        valueInput = document.getElementById('input_buscar').value;
 
-        // Prevengo de que se realicen consultas vacias.
-        if (valueInput && valueInput.length > 0) {
-            loadBusquedas(valueInput);
-        } else {
-            showHideSearches(false);
-        }
-    });
-}
-
-function changeButtonSearchTheme() {
-    let value = document.getElementById('input_buscar').value;
-    const boton = document.getElementById('boton-buscar');
-    const lupaIcon = document.querySelector('.icono-lupa');
-
-    const activeTheme = getActiveTheme();
-
-    var styles = getComputedStyle(document.documentElement);
-    const backgroundColor = styles.getPropertyValue('--color-button-buscar-con-valor');
-    const color = styles.getPropertyValue('--color-text-button-buscar-con-valor');
-
-    const backgroundColorNormal = styles.getPropertyValue('--color-button-buscar-sin-valor');
-    const colorNormal = styles.getPropertyValue('--color-text-button-buscar-sin-valor');
-
-    if (value != "") {
-        boton.style.backgroundColor = backgroundColor;
-        boton.style.color = color;
-
-        if (activeTheme == 'night') {
-            lupaIcon.setAttribute('src', '/assets/img/lupa_value_nigth.svg');
-
-        } else {
-            lupaIcon.setAttribute('src', '/assets/img/lupa_value_ligth.svg');
-        }
-    } else {
-        boton.style.backgroundColor = backgroundColorNormal;
-        boton.style.color = colorNormal;
-
-        if (activeTheme == 'night') {
-            lupaIcon.setAttribute('src', '/assets/img/lupa_inactive_nigth.svg');
-
-        } else {
-            lupaIcon.setAttribute('src', '/assets/img/lupa_inactive_ligth.svg');
-        }
-    }
 }
 
 function createGridItem(imgSrc, hastagsText, posicionInsertar) {
@@ -283,7 +232,100 @@ function checkUrlGif(arrayGifImages) {
 
 }
 
-function changeTheme() {
+async function checkStorageTheme() {
+    const storageTheme = await localStorage.getItem('theme');
+    let logoGifNode = document.querySelector('.logo-gif');
+
+    if (storageTheme == 'day') {
+        document.documentElement.setAttribute('theme', 'day');
+        logoGifNode.setAttribute('src', '/assets/img/gifOF_logo_day.png');
+        changeButtonSearchTheme();
+    } else if (storageTheme == 'night') {
+        document.documentElement.setAttribute('theme', 'night');
+        logoGifNode.setAttribute('src', '/assets/img/gifOF_logo_night.png');
+        changeButtonSearchTheme();
+    } else {
+        document.documentElement.setAttribute('theme', 'day');
+        logoGifNode.setAttribute('src', '/assets/img/gifOF_logo_day.png');
+        changeButtonSearchTheme();
+    }
+}
+
+function showHideSearches(mostrar) {
+    let contenedorBusquedaNode = document.querySelector('.contenedor-busquedas');
+
+    if (mostrar) {
+        contenedorBusquedaNode.classList.replace('ocultar', 'mostrar');
+    } else {
+        contenedorBusquedaNode.classList.replace('mostrar', 'ocultar');
+    }
+}
+
+function changeButtonSearchTheme() {
+
+    let value = document.getElementById('input_buscar').value;
+    const buttonObjTheme = getButtonObjTheme();
+
+    if (value != "") {
+        changeButtonColors(buttonObjTheme.colorTextValue, buttonObjTheme.backgroundColorValue, buttonObjTheme.lupaValue);
+    } else {
+        changeButtonColors(buttonObjTheme.colorTextInactive, buttonObjTheme.backgroundColorInactive, buttonObjTheme.lupaInactive);
+    }
+}
+
+function getButtonObjTheme() {
+    const themeActive = document.documentElement.getAttribute('theme');
+
+    var styles = getComputedStyle(document.documentElement);
+    const backgroundColorValue = styles.getPropertyValue('--color-button-buscar-con-valor');
+    const colorTextValue = styles.getPropertyValue('--color-text-button-buscar-con-valor');
+
+    const backgroundColorInactive = styles.getPropertyValue('--color-button-buscar-sin-valor');
+    const colorTextInactive = styles.getPropertyValue('--color-text-button-buscar-sin-valor');
+
+    if (themeActive === 'day') {
+        return {
+            backgroundColorValue,
+            colorTextValue,
+            backgroundColorInactive,
+            colorTextInactive,
+            lupaInactive: '/assets/img/lupa_inactive_ligth.svg',
+            lupaValue: '/assets/img/lupa_value_ligth.svg'
+        };
+    } else {
+        return {
+            backgroundColorValue,
+            colorTextValue,
+            backgroundColorInactive,
+            colorTextInactive,
+            lupaInactive: '/assets/img/lupa_inactive_nigth.svg',
+            lupaValue: '/assets/img/lupa_value_nigth.svg'
+        };
+    }
+
+}
+
+function changeButtonColors(colorText, backgroundColor, pathLupaIcon) {
+    const boton = document.getElementById('boton-buscar');
+    const lupaIcon = document.querySelector('.icono-lupa');
+
+    boton.style.backgroundColor = backgroundColor;
+    boton.style.color = colorText;
+    lupaIcon.setAttribute('src', pathLupaIcon);
+}
+
+// EventListeners
+
+function eventListenerClickButonTheme() {
+    const boton = document.getElementById('mostrar-temas');
+
+    boton.addEventListener('click', () => {
+        var nodesTemas = document.querySelector('.ventana-temas');
+        nodesTemas.classList.toggle('ocultar');
+    });
+}
+
+function eventListenerChangeTheme() {
     let logoGifNode = document.querySelector('.logo-gif');
 
     const botonDay = document.getElementById('changeToDay');
@@ -306,45 +348,23 @@ function changeTheme() {
 
 }
 
-async function checkStorageTheme() {
-    const storageTheme = await localStorage.getItem('theme');
-    let logoGifNode = document.querySelector('.logo-gif');
+function eventListenerBarSearch() {
+    const boton = document.getElementById('boton-buscar');
+    let valueInput = null;
 
-    if (storageTheme == 'day') {
-        document.documentElement.setAttribute('theme', 'day');
-        logoGifNode.setAttribute('src', '/assets/img/gifOF_logo_day.png');
-        changeButtonSearchTheme();
-    } else if (storageTheme == 'night') {
-        document.documentElement.setAttribute('theme', 'night');
-        logoGifNode.setAttribute('src', '/assets/img/gifOF_logo_night.png');
-        changeButtonSearchTheme();
-    } else {
-        document.documentElement.setAttribute('theme', 'day');
-        logoGifNode.setAttribute('src', '/assets/img/gifOF_logo_day.png');
-        changeButtonSearchTheme();
-    }
-}
+    boton.addEventListener('click', async() => {
+        // Get value del input.
+        valueInput = document.getElementById('input_buscar').value;
 
-function clickButonTheme() {
-    const boton = document.getElementById('mostrar-temas');
-
-    boton.addEventListener('click', () => {
-        var nodesTemas = document.querySelector('.ventana-temas');
-        nodesTemas.classList.toggle('ocultar');
+        // Prevengo de que se realicen consultas vacias.
+        if (valueInput && valueInput.length > 0) {
+            loadBusquedas(valueInput);
+        } else {
+            showHideSearches(false);
+        }
     });
 }
 
-function showHideSearches(mostrar) {
-    let contenedorBusquedaNode = document.querySelector('.contenedor-busquedas');
+function getSugerencias() {
 
-    if (mostrar) {
-        contenedorBusquedaNode.classList.replace('ocultar', 'mostrar');
-    } else {
-        contenedorBusquedaNode.classList.replace('mostrar', 'ocultar');
-    }
-}
-
-function getActiveTheme() {
-    const themeActive = document.documentElement.getAttribute('theme');
-    return themeActive;
 }
