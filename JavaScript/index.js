@@ -10,6 +10,7 @@ loadTrending();
 loadSugest();
 eventListenerChangeTheme();
 getInputChanges();
+eventListenerButtonSugerencias();
 
 // FUNCIONES DE API //
 async function getTrending(limitGifs) {
@@ -168,8 +169,7 @@ async function getTitlesOfGifs(arrayGifs, cortarTitulo) {
 
 function getInputChanges() {
     changeButtonSearchTheme();
-    mostrarSugerencias();
-
+    insertarSugerencias();
 }
 
 function createGridItem(imgSrc, hastagsText, posicionInsertar) {
@@ -324,6 +324,28 @@ function eventListenerClickButonTheme() {
     });
 }
 
+function eventListenerButtonSugerencias() {
+    const buttonsSugerencias = document.querySelectorAll('button.button-sugerencia');
+    const input = document.getElementById('input_buscar');
+
+    const buttonsNodes = document.querySelectorAll('button.button-sugerencia');
+    const divSugerencias = document.querySelector('div.sugerencias-busqueda');
+
+    buttonsSugerencias.forEach(button => {
+        button.addEventListener('click', () => {
+
+            for (contador = 0; contador < buttonsNodes.length; contador++) {
+                divSugerencias.setAttribute('class', 'sugerencias-busqueda ocultar');
+                buttonsNodes[contador].classList.replace('mostrar', 'ocultar');
+            }
+
+            // Inserto el texto en el input y hago una busqueda con el texto.
+            input.value = button.innerHTML;
+            loadBusquedas(button.innerHTML);
+        });
+    });
+}
+
 function eventListenerChangeTheme() {
     let logoGifNode = document.querySelector('.logo-gif');
 
@@ -368,7 +390,7 @@ async function getSugerencias(value) {
     return dataSugerencias;
 }
 
-async function mostrarSugerencias() {
+async function insertarSugerencias() {
     let value = document.getElementById('input_buscar').value;
     const buttonsNodes = document.querySelectorAll('button.button-sugerencia');
     const divSugerencias = document.querySelector('div.sugerencias-busqueda');
