@@ -5,8 +5,8 @@ theme_light ? document.documentElement.setAttribute('theme', 'day') : document.d
 
 checkStorageTheme();
 eventListenerButtonBuscar();
-loadTrending();
-loadSugest();
+insertarTrending();
+insertarSugerencias();
 eventListenerChangeTheme();
 getInputChanges();
 eventListenerButtonsSugerencias();
@@ -55,7 +55,7 @@ async function getSugerencias(value) {
 }
 
 // FUNCIONES GENERALES //
-async function loadSugest() {
+async function insertarSugerencias() {
     nodesImg = document.querySelectorAll('.gif-sugerencia .gif');
     nodesParrafos = document.querySelectorAll('.descripcion-gif');
 
@@ -84,7 +84,7 @@ async function loadSugest() {
     }
 }
 // Inserto los trending en el html.
-async function loadTrending() {
+async function insertarTrending() {
     let tendenciasNodes = document.querySelector('.trending');
     let posicion = 'izquierda';
     let gifs = await getTrending(34);
@@ -112,7 +112,7 @@ async function loadTrending() {
     }
 }
 // Inserto lo que se busco con el input en el html.
-async function loadBusquedas(busqueda) {
+async function insertarBusqueda(busqueda) {
     let busquedaVieja = document.querySelector('.resultado-busqueda');
     let nuevaBusqueda = document.createElement('div');
     nuevaBusqueda.setAttribute('class', 'grid resultado-busqueda');
@@ -366,7 +366,7 @@ function eventListenerButtonsSugerencias() {
             hideContenedorSugerencias();
             // Inserto el texto en el input y hago una busqueda con el texto.
             input.value = button.innerHTML;
-            loadBusquedas(button.innerHTML);
+            insertarBusqueda(button.innerHTML);
         });
     });
 }
@@ -409,7 +409,7 @@ function eventListenerButtonBuscar() {
 
         // Prevengo de que se realicen consultas vacias.
         if (valueInput && valueInput.length > 0) {
-            loadBusquedas(valueInput);
+            insertarBusqueda(valueInput);
 
         }
     });
@@ -425,7 +425,7 @@ function eventListenerButtonsVerMas() {
             // Quito el # que tengo al principio del titulo.
             valueToSearch = valueToSearch.split('#').join('');
             // Realizo la busqueda.
-            loadBusquedas(valueToSearch);
+            insertarBusqueda(valueToSearch);
         });
     });
 }
