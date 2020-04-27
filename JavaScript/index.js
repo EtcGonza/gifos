@@ -10,7 +10,8 @@ loadTrending();
 loadSugest();
 eventListenerChangeTheme();
 getInputChanges();
-eventListenerButtonSugerencias();
+eventListenerButtonsSugerencias();
+eventListenerButtonsVerMas();
 
 // FUNCIONES DE API //
 async function getTrending(limitGifs) {
@@ -45,6 +46,12 @@ async function getRandomGif() {
     } else {
         console.log('Error al traer Gif Random.');
     }
+}
+
+async function getSugerencias(value) {
+    const consulta = await fetch(`http://api.datamuse.com/sug?max=3&s=${value}`);
+    const dataSugerencias = await consulta.json();
+    return dataSugerencias;
 }
 
 // FUNCIONES GENERALES //
@@ -266,9 +273,9 @@ function changeButtonSearchTheme() {
     const buttonObjTheme = getButtonObjTheme();
 
     if (value != "") {
-        changeButtonColors(buttonObjTheme.colorTextValue, buttonObjTheme.backgroundColorValue, buttonObjTheme.lupaValue);
+        changeSearchButtonColor(buttonObjTheme.colorTextValue, buttonObjTheme.backgroundColorValue, buttonObjTheme.lupaValue);
     } else {
-        changeButtonColors(buttonObjTheme.colorTextInactive, buttonObjTheme.backgroundColorInactive, buttonObjTheme.lupaInactive);
+        changeSearchButtonColor(buttonObjTheme.colorTextInactive, buttonObjTheme.backgroundColorInactive, buttonObjTheme.lupaInactive);
     }
 }
 
@@ -304,13 +311,40 @@ function getButtonObjTheme() {
 
 }
 
-function changeButtonColors(colorText, backgroundColor, pathLupaIcon) {
+function changeSearchButtonColor(colorText, backgroundColor, pathLupaIcon) {
     const boton = document.getElementById('boton-buscar');
     const lupaIcon = document.querySelector('.icono-lupa');
 
     boton.style.backgroundColor = backgroundColor;
     boton.style.color = colorText;
     lupaIcon.setAttribute('src', pathLupaIcon);
+}
+
+async function insertarSugerencias() {
+    let value = document.getElementById('input_buscar').value;
+    const buttonsNodes = document.querySelectorAll('button.button-sugerencia');
+    const divSugerencias = document.querySelector('div.sugerencias-busqueda');
+
+    if (value.length > 3) {
+        // Consulto por sugerencias
+        const sugerencias = await getSugerencias(value);
+        // Muestro el div que contiene los botones
+        divSugerencias.classList.replace('ocultar', 'mostar');
+
+        for (contador = 0; contador < sugerencias.length; contador++) {
+            // A cada boton le inserto el texto que recibo como sugerencia.
+            // Al boton que le estoy insertando le agrego la clase mostrar.
+            // Asi evito que se muestren botones vacios.
+            buttonsNodes[contador].classList.replace('ocultar', 'mostrar');
+            buttonsNodes[contador].innerHTML = sugerencias[contador].word;
+        }
+    } else {
+        // Oculto todos los botones y el div que los contiene.
+        for (contador = 0; contador < buttonsNodes.length; contador++) {
+            divSugerencias.setAttribute('class', 'sugerencias-busqueda ocultar');
+            buttonsNodes[contador].classList.replace('mostrar', 'ocultar');
+        }
+    }
 }
 
 // EventListeners
@@ -324,7 +358,7 @@ function eventListenerClickButonTheme() {
     });
 }
 
-function eventListenerButtonSugerencias() {
+function eventListenerButtonsSugerencias() {
     const buttonsSugerencias = document.querySelectorAll('button.button-sugerencia');
     const input = document.getElementById('input_buscar');
 
@@ -384,35 +418,17 @@ function eventListenerBarSearch() {
     });
 }
 
-async function getSugerencias(value) {
-    const consulta = await fetch(`http://api.datamuse.com/sug?max=3&s=${value}`);
-    const dataSugerencias = await consulta.json();
-    return dataSugerencias;
-}
-
-async function insertarSugerencias() {
-    let value = document.getElementById('input_buscar').value;
-    const buttonsNodes = document.querySelectorAll('button.button-sugerencia');
-    const divSugerencias = document.querySelector('div.sugerencias-busqueda');
-
-    if (value.length > 3) {
-        // Consulto por sugerencias
-        const sugerencias = await getSugerencias(value);
-        // Muestro el div que contiene los botones
-        divSugerencias.classList.replace('ocultar', 'mostar');
-
-        for (contador = 0; contador < sugerencias.length; contador++) {
-            // A cada boton le inserto el texto que recibo como sugerencia.
-            // Al boton que le estoy insertando le agrego la clase mostrar.
-            // Asi evito que se muestren botones vacios.
-            buttonsNodes[contador].classList.replace('ocultar', 'mostrar');
-            buttonsNodes[contador].innerHTML = sugerencias[contador].word;
-        }
-    } else {
-        // Oculto todos los botones y el div que los contiene.
-        for (contador = 0; contador < buttonsNodes.length; contador++) {
-            divSugerencias.setAttribute('class', 'sugerencias-busqueda ocultar');
-            buttonsNodes[contador].classList.replace('mostrar', 'ocultar');
-        }
-    }
+function eventListenerButtonsVerMas() {
+    const buttonsVerMas = document.querySelectorAll('button.ver-mas');
+    // Agrego listener a cada uno de los botones 'Ver mas...'
+    buttonsVerMas.forEach(button => {
+        button.addEventListener('click', () => {
+            // Del contenedor en el que se encuentra el boton tomo la etiqueta p con su texto.
+            let valueToSearch = button.parentElement.querySelector('p').innerHTML;
+            // Quito el # que tengo al principio del titulo.
+            valueToSearch = valueToSearch.split('#').join('');
+            // Realizo la busqueda.
+            loadBusquedas(valueToSearch);
+        });
+    });
 }
