@@ -4,8 +4,7 @@ let theme_light = true;
 theme_light ? document.documentElement.setAttribute('theme', 'day') : document.documentElement.setAttribute('theme', 'night');
 
 checkStorageTheme();
-eventListenerBarSearch();
-eventListenerClickButonTheme();
+eventListenerButtonBuscar();
 loadTrending();
 loadSugest();
 eventListenerChangeTheme();
@@ -14,6 +13,7 @@ eventListenerButtonsSugerencias();
 eventListenerButtonsVerMas();
 
 // FUNCIONES DE API //
+// Cargo trending gifs.
 async function getTrending(limitGifs) {
     const consultaTrending = await fetch(`https://api.giphy.com/v1/gifs/trending?api_key=WMgym4yAIPYofgGPrganKNA7n1vg2D5Y&limit=${limitGifs}&rating=G`);
 
@@ -24,7 +24,7 @@ async function getTrending(limitGifs) {
         console.log('Error al traer trending.');
     }
 }
-
+// Recibo gifs segun un valor ingresado.
 async function buscarApi(searchParam) {
     const consultaSearch = await fetch(`http://api.giphy.com/v1/gifs/search?q=${searchParam}&api_key=WMgym4yAIPYofgGPrganKNA7n1vg2D5Y`);
 
@@ -36,7 +36,7 @@ async function buscarApi(searchParam) {
     }
 
 }
-
+// Traigo un gif random.
 async function getRandomGif() {
     const consultaRandom = await fetch(`http://api.giphy.com/v1/gifs/random?api_key=WMgym4yAIPYofgGPrganKNA7n1vg2D5Y`);
 
@@ -47,7 +47,7 @@ async function getRandomGif() {
         console.log('Error al traer Gif Random.');
     }
 }
-
+// Traigo palabras sugeridas, API datamuse.
 async function getSugerencias(value) {
     const consulta = await fetch(`http://api.datamuse.com/sug?max=3&s=${value}`);
     const dataSugerencias = await consulta.json();
@@ -83,7 +83,7 @@ async function loadSugest() {
         nodesParrafos[contador].prepend(createParrafo);
     }
 }
-
+// Inserto los trending en el html.
 async function loadTrending() {
     let tendenciasNodes = document.querySelector('.trending');
     let posicion = 'izquierda';
@@ -111,7 +111,7 @@ async function loadTrending() {
         }
     }
 }
-
+// Inserto lo que se busco con el input en el html.
 async function loadBusquedas(busqueda) {
     let busquedaVieja = document.querySelector('.resultado-busqueda');
     let nuevaBusqueda = document.createElement('div');
@@ -149,7 +149,7 @@ async function loadBusquedas(busqueda) {
 
     showHideSearches(true);
 }
-
+// Recibe un arreglo de gifs y devuelve los titulos de todos esos gifs.
 async function getTitlesOfGifs(arrayGifs, cortarTitulo) {
     let gifHastag = [];
 
@@ -173,12 +173,12 @@ async function getTitlesOfGifs(arrayGifs, cortarTitulo) {
 
     return gifHastag;
 }
-
+// Se ejecuta cada vez que cambia el valor del input.
 function getInputChanges() {
     changeButtonSearchTheme();
     insertarSugerencias();
 }
-
+// Setea toda la estructura grid de gifs. 
 function createGridItem(imgSrc, hastagsText, posicionInsertar) {
 
     let divContenedor = document.createElement('div');
@@ -215,7 +215,7 @@ function createGridItem(imgSrc, hastagsText, posicionInsertar) {
 
     return divContenedor;
 }
-
+// Chequea si el titulo del gif es valido y sino agrega uno por default.
 function checkGifTitle(titleGif) {
     if (titleGif == ' ' || titleGif == ' #' || titleGif == undefined) {
         return "This Gif doesn't have a title";
@@ -223,7 +223,7 @@ function checkGifTitle(titleGif) {
         return titleGif;
     }
 }
-
+// Chequea si la URL del gif es valida, sino inserta un gif por default.
 function checkUrlGif(arrayGifImages) {
     for (let key in arrayGifImages) {
         let value = arrayGifImages[key];
@@ -238,7 +238,7 @@ function checkUrlGif(arrayGifImages) {
     return 'https://media.giphy.com/media/xTiN0L7EW5trfOvEk0/giphy.gif';
 
 }
-
+// Chequea si existe un theme en el storage, y si existe lo carga.
 async function checkStorageTheme() {
     const storageTheme = await localStorage.getItem('theme');
     let logoGifNode = document.querySelector('.logo-gif');
@@ -257,7 +257,7 @@ async function checkStorageTheme() {
         changeButtonSearchTheme();
     }
 }
-
+// Oculto o muestro el contenedor que contiene las busquedas.
 function showHideSearches(mostrar) {
     let contenedorBusquedaNode = document.querySelector('.contenedor-busquedas');
 
@@ -267,7 +267,7 @@ function showHideSearches(mostrar) {
         contenedorBusquedaNode.classList.replace('mostrar', 'ocultar');
     }
 }
-
+// Cambio el color del boton de buscar.
 function changeButtonSearchTheme() {
     let value = document.getElementById('input_buscar').value;
     const buttonObjTheme = getButtonObjTheme();
@@ -278,7 +278,7 @@ function changeButtonSearchTheme() {
         changeSearchButtonColor(buttonObjTheme.colorTextInactive, buttonObjTheme.backgroundColorInactive, buttonObjTheme.lupaInactive);
     }
 }
-
+// Me devuelve un objeto con los estilo que tiene que tener el boton segun el theme.
 function getButtonObjTheme() {
     const themeActive = document.documentElement.getAttribute('theme');
 
@@ -310,7 +310,7 @@ function getButtonObjTheme() {
     }
 
 }
-
+// Seteo el boton buscar segun los valores que recibo.
 function changeSearchButtonColor(colorText, backgroundColor, pathLupaIcon) {
     const boton = document.getElementById('boton-buscar');
     const lupaIcon = document.querySelector('.icono-lupa');
@@ -319,7 +319,7 @@ function changeSearchButtonColor(colorText, backgroundColor, pathLupaIcon) {
     boton.style.color = colorText;
     lupaIcon.setAttribute('src', pathLupaIcon);
 }
-
+// Inserto sugerencias segun lo que se escribe en el input y me devuelve la API.
 async function insertarSugerencias() {
     let value = document.getElementById('input_buscar').value;
     const buttonsNodes = document.querySelectorAll('button.button-sugerencia');
@@ -339,49 +339,46 @@ async function insertarSugerencias() {
             buttonsNodes[contador].innerHTML = sugerencias[contador].word;
         }
     } else {
-        // Oculto todos los botones y el div que los contiene.
-        for (contador = 0; contador < buttonsNodes.length; contador++) {
-            divSugerencias.setAttribute('class', 'sugerencias-busqueda ocultar');
-            buttonsNodes[contador].classList.replace('mostrar', 'ocultar');
-        }
+        // Oculto todos los botones de sugerencia y el div que los contiene.
+        hideContenedorSugerencias();
+    }
+}
+// Oculta los botones de sugerencia y el div que los contiene.
+function hideContenedorSugerencias() {
+    const buttonsNodes = document.querySelectorAll('button.button-sugerencia');
+    const divSugerencias = document.querySelector('div.sugerencias-busqueda');
+
+    for (contador = 0; contador < buttonsNodes.length; contador++) {
+        divSugerencias.setAttribute('class', 'sugerencias-busqueda ocultar');
+        buttonsNodes[contador].classList.replace('mostrar', 'ocultar');
     }
 }
 
-// EventListeners
-
-function eventListenerClickButonTheme() {
-    const boton = document.getElementById('mostrar-temas');
-
-    boton.addEventListener('click', () => {
-        var nodesTemas = document.querySelector('.ventana-temas');
-        nodesTemas.classList.toggle('ocultar');
-    });
-}
-
+// EVENTLISTENERS
+// Listener para los botones de sugerencia.
 function eventListenerButtonsSugerencias() {
     const buttonsSugerencias = document.querySelectorAll('button.button-sugerencia');
     const input = document.getElementById('input_buscar');
 
-    const buttonsNodes = document.querySelectorAll('button.button-sugerencia');
-    const divSugerencias = document.querySelector('div.sugerencias-busqueda');
-
     buttonsSugerencias.forEach(button => {
         button.addEventListener('click', () => {
-
-            for (contador = 0; contador < buttonsNodes.length; contador++) {
-                divSugerencias.setAttribute('class', 'sugerencias-busqueda ocultar');
-                buttonsNodes[contador].classList.replace('mostrar', 'ocultar');
-            }
-
+            // Oculto todos los botones de sugerencia y el div que los contiene.
+            hideContenedorSugerencias();
             // Inserto el texto en el input y hago una busqueda con el texto.
             input.value = button.innerHTML;
             loadBusquedas(button.innerHTML);
         });
     });
 }
-
+// Listener para los botones 'Elegir Tema', 'day' y 'nigth.
 function eventListenerChangeTheme() {
     let logoGifNode = document.querySelector('.logo-gif');
+    var elegirTemaNode = document.querySelector('.ventana-temas');
+    const boton = document.getElementById('mostrar-temas');
+
+    boton.addEventListener('click', () => {
+        elegirTemaNode.classList.toggle('ocultar');
+    });
 
     const botonDay = document.getElementById('changeToDay');
     botonDay.addEventListener('click', () => {
@@ -389,7 +386,7 @@ function eventListenerChangeTheme() {
         logoGifNode.setAttribute('src', '/assets/img/gifOF_logo_day.png');
         localStorage.setItem('theme', 'day');
         changeButtonSearchTheme();
-
+        elegirTemaNode.classList.toggle('ocultar');
     });
 
     const botonNight = document.getElementById('changeToNight');
@@ -398,12 +395,11 @@ function eventListenerChangeTheme() {
         logoGifNode.setAttribute('src', '/assets/img/gifOF_logo_night.png');
         localStorage.setItem('theme', 'night');
         changeButtonSearchTheme();
-
+        elegirTemaNode.classList.toggle('ocultar');
     });
-
 }
-
-function eventListenerBarSearch() {
+// Listener para cuando se clickea el boton de buscar.
+function eventListenerButtonBuscar() {
     const boton = document.getElementById('boton-buscar');
     let valueInput = null;
 
@@ -414,10 +410,11 @@ function eventListenerBarSearch() {
         // Prevengo de que se realicen consultas vacias.
         if (valueInput && valueInput.length > 0) {
             loadBusquedas(valueInput);
+
         }
     });
 }
-
+// Listener para los botones de Ver Mas.
 function eventListenerButtonsVerMas() {
     const buttonsVerMas = document.querySelectorAll('button.ver-mas');
     // Agrego listener a cada uno de los botones 'Ver mas...'
