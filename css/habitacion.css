@@ -1,0 +1,68 @@
+/* Mis Guifos css */
+
+.arrow-back {
+    margin-right: 7px;
+}
+
+.ventana-crear-guifo {
+    background-color: var(--color-background-ventanas);
+    box-shadow: inset -2px -2px 0 0 var(--color1-box-shadow-buscar), inset 2px 2px 0 0 var(--color2-box-shadow-buscar);
+    width: 684px;
+    height: 386px;
+    margin-top: 78px;
+    margin-bottom: 153px;
+}
+
+.ventana-crear-guifo p.texto-crear-guifo {
+    margin-left: 3px;
+}
+
+.titulo-crear-guifos {
+    margin: 32px 0px 7px 0px;
+}
+
+.icono_window {
+    margin: 0px 16px 0px 25px;
+}
+
+div.contenedor-textos p,
+h3,
+span {
+    color: var(--color03);
+}
+
+div.contenedor-textos div p {
+    display: inline;
+    font-size: 16px;
+}
+
+.contenedor-textos {
+    width: 518px;
+}
+
+div.contenedor-textos div {
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+
+.contenedor-botones {
+    width: 95%;
+    margin-top: 23px;
+}
+
+.contenedor-botones button {
+    height: 36px;
+    width: 144px;
+    font-size: 16px;
+    box-shadow: inset -1px -1px 0 0 #997D97, inset 1px 1px 0 0 #FFFFFF;
+    border: 1px solid #110038;
+}
+
+button.button-cancelar {
+    margin-right: 16px;
+    background-color: var(--color-background);
+}
+
+button.button-comenzar {
+    background-color: var(--color01);
+}

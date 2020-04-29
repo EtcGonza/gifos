@@ -195,6 +195,21 @@ button:active,
     width: 100%;
 }
 
+span.negrita,
+p.negrita {
+    font-weight: bold;
+}
+
+.flex-end {
+    display: flex;
+    justify-content: end;
+}
+
+.flex-start {
+    display: flex;
+    justify-content: start;
+}
+
 
 /* FIN CLASES GENERALES */
 
@@ -471,42 +486,4 @@ div.expand-2 img {
 
 .ocultar {
     display: none;
-}
-
-
-/* Mis Guifos css */
-
-.arrow-back {
-    margin-right: 7px;
-}
-
-.flex-start {
-    display: flex;
-    justify-content: start;
-}
-
-.ventana-crear-guifo {
-    background-color: var(--color-background-ventanas);
-    box-shadow: inset -2px -2px 0 0 var(--color1-box-shadow-buscar), inset 2px 2px 0 0 var(--color2-box-shadow-buscar);
-    width: 684px;
-    height: 386px;
-}
-
-div.contenedor-textos p,
-h3 {
-    color: var(--color03);
-}
-
-div.contenedor-textos div p {
-    display: inline;
-    font-size: 16px;
-}
-
-.item {
-    font-weight: bold;
-}
-
-.contenedor-textos {
-    width: 518px;
-    height: 190px;
 }
