@@ -1,5 +1,41 @@
 /* Mis Guifos css */
 
+
+/* UTILIDADES */
+
+button {
+    width: 144px;
+    height: 36px;
+    font-size: 16px;
+    box-shadow: inset -1px -1px 0 0 #997D97, inset 1px 1px 0 0 #FFFFFF;
+    border: 1px solid #110038;
+}
+
+button.button-ancho {
+    width: 256px;
+    height: 36px;
+}
+
+.boton-tiza {
+    background-color: var(--color-background);
+}
+
+.boton-rosado {
+    background-color: var(--color01);
+}
+
+.boton-naranja {
+    background-color: #FF6161;
+    color: #FFFFFF;
+}
+
+.flex-columna {
+    flex-direction: column;
+}
+
+
+/*  */
+
 .arrow-back {
     margin-right: 7px;
 }
@@ -10,7 +46,7 @@
     width: 684px;
     height: 386px;
     margin-top: 78px;
-    margin-bottom: 153px;
+    margin-bottom: 38px;
 }
 
 .ventana-crear-guifo p.texto-crear-guifo {
@@ -50,19 +86,79 @@ div.contenedor-textos div {
     margin-top: 23px;
 }
 
-.contenedor-botones button {
-    height: 36px;
-    width: 144px;
-    font-size: 16px;
-    box-shadow: inset -1px -1px 0 0 #997D97, inset 1px 1px 0 0 #FFFFFF;
-    border: 1px solid #110038;
-}
-
 button.button-cancelar {
     margin-right: 16px;
-    background-color: var(--color-background);
 }
 
-button.button-comenzar {
-    background-color: var(--color01);
+
+/* VENTANA GIFO SUBIDO */
+
+div.ventana-gifo-subido {
+    width: 60%;
+    height: 191px;
+    background: #FFFFFF;
+    margin: 29px 27px 0px 27px;
+}
+
+div.contenedor-gif-creado {
+    width: 50%;
+}
+
+div.botones-gif-creado button:first-of-type {
+    margin: 16px 0px 14px 0px;
+}
+
+div.ventana-crear-guifo.terminado {
+    width: 721px;
+}
+
+.contenedor-boton-listo {
+    height: 37%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+}
+
+.contenedor-boton-listo button {
+    margin: 0px 46px 44px 0px;
+}
+
+div.grabacion {
+    width: 860px;
+    height: 548px;
+}
+
+div.ventana-grabacion {
+    padding: 2%;
+    width: 100%;
+    height: 85%;
+}
+
+div.ventana-grabacion img {
+    border: 2px solid #979797;
+    box-shadow: inset -2px -2px 0 0 #E6E6E6, inset 2px 2px 0 0 #000000;
+}
+
+div.contenedor-reproductor {
+    width: 100%;
+    height: 100%;
+}
+
+button.boton-con-icono {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+button.boton-con-icono span {
+    padding: 5% 20%;
+    border-left: 1.9px solid var(--color03);
+}
+
+p.recording-tiempo {
+    background-color: #FFFFFF;
+    padding: 5px 20px 5px 20px;
+    color: #110038;
+    border: 1px solid #979797;
+    box-shadow: inset -2px -2px 0 0 #E6E6E6, inset 2px 2px 0 0 #000000;
 }
