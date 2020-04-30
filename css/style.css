@@ -175,6 +175,7 @@ section {
 
 .fondo-degradado {
     background-image: linear-gradient(270deg, var(--color-degradado-01) 0%, var(--color-degradado-02) 100%);
+    width: 100%;
 }
 
 button {
