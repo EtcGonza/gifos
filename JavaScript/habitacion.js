@@ -1,12 +1,89 @@
-const apiKey = "WMgym4yAIPYofgGPrganKNA7n1vg2D5Y";
-
 let theme_light = true;
 theme_light ? document.documentElement.setAttribute('theme', 'day') : document.documentElement.setAttribute('theme', 'night');
 
-RTCRecorder = new RtcRecorder();
-console.log(RTCRecorder);
+//
 
+RTCRecorder = new RtcRecorder();
 eventListenerButtons();
+
+function mostrarControl(mostrar) {
+    const arregloControles = document.querySelectorAll('.controles');
+
+    for (contador = 0; contador < arregloControles.length; contador++) {
+        if (mostrar == contador) {
+            arregloControles[contador].classList.replace('ocultar', 'mostrar');
+        } else {
+            arregloControles[contador].classList.replace('mostrar', 'ocultar');
+        }
+    }
+}
+
+async function getMedia() {
+    const ventanasDeGrabacion = document.getElementById('videoFrame');
+    RTCRecorder.getMedia(ventanasDeGrabacion);
+}
+
+function eventListenerButtons() {
+    const buttonCapturar = document.getElementById('buttonCapturar');
+    const buttonComenzar = document.getElementById('buttonComenzar');
+
+    buttonComenzar.addEventListener('click', () => {
+        document.getElementById('ventanaTemplate').classList.replace('ocultar', 'mostrar');
+        document.getElementById('ventanaInstrucciones').classList.add('ocultar');
+    });
+
+    buttonCapturar.addEventListener('click', async() => {
+        if (RTCRecorder.getRecorderState() === "inactive") {
+            RTCRecorder.comenzarGrabacion();
+        }
+
+        const sleep = m => new Promise(r => setTimeout(r, m));
+        await sleep(50000000);
+
+        RTCRecorder.detenerGrabacion();
+    });
+}
+
+getMedia();
+mostrarControl(0);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const apiKey = "WMgym4yAIPYofgGPrganKNA7n1vg2D5Y";
+
 
 // FUNCIONES DE API //
 // Cargo trending gifs.
@@ -133,77 +210,4 @@ async function getTitlesOfGifs(arrayGifs, cortarTitulo) {
     }
 
     return gifHastag;
-}
-
-// 
-
-function ocultarVentanas(mostrar) {
-    const arregloVentanas = document.querySelectorAll('.contenedor-reproductor');
-
-    for (contador = 0; contador < arregloVentanas.length; contador++) {
-        if (mostrar == contador) {
-            console.log('Muestro: ', arregloVentanas[contador]);
-            arregloVentanas[contador].classList.replace('ocultar', 'mostrar');
-        } else {
-            console.log(arregloVentanas[contador]);
-            arregloVentanas[contador].classList.replace('mostrar', 'ocultar');
-        }
-    }
-}
-
-async function getMedia() {
-    // const constraints = {
-    //     audio: false,
-    //     video: {
-    //         width: 1280,
-    //         height: 720,
-    //         facingMode: "user",
-    //     }
-    // };
-
-    // try {
-    // const camaraUser = document.getElementById('camaraUser');
-    // cameraDevice = await navigator.mediaDevices.getUserMedia(constraints);
-    // camaraUser.srcObject = cameraDevice;
-    // camaraUser.play();
-
-    // globalRTCRecorder = RecordRTC(cameraDevice, {
-    //     type: 'gif',
-    //     frameRate: 1,
-    //     quality: 10,
-    //     // width: 360,
-    //     hidden: 240,
-    //     onGifRecordingStarted: function() {
-    //         console.log('Comence a grabar');
-    //     },
-    // });
-
-    // } catch (error) {
-    //     console.log('Tuve error: ', error);
-    // }
-}
-
-ocultarVentanas(0);
-getMedia();
-
-function eventListenerButtons() {
-    const buttonCapturar = document.getElementById('buttonCapturar');
-    const buttonComenzar = document.getElementById('buttonComenzar');
-
-    buttonComenzar.addEventListener('click', () => {
-        document.getElementById('ventanaTemplate').classList.replace('ocultar', 'mostrar');
-        document.getElementById('ventanaInstrucciones').classList.add('ocultar');
-    });
-
-    buttonCapturar.addEventListener('click', async() => {
-        // globalRTCRecorder.startRecording();
-
-        const sleep = m => new Promise(r => setTimeout(r, m));
-        await sleep(5000);
-
-        // globalRTCRecorder.stopRecording(async function() {
-        //     let blob = await globalRTCRecorder.getBlob();
-        //     console.log(blob);
-        // });
-    });
 }

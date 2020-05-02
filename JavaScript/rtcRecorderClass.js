@@ -11,18 +11,19 @@ class RtcRecorder {
         };
 
         this.globalRTCRecorder = null;
+        this.camaraUser = null;
     }
 
     async getMedia(videoTag) {
         try {
             // Obtengo la camara
-            cameraDevice = await navigator.mediaDevices.getUserMedia(this.constraints);
+            this.camaraUser = await navigator.mediaDevices.getUserMedia(this.constraints);
             // Inserto la camara en el tag VIDEO.
-            videoTag.srcObject = cameraDevice;
+            videoTag.srcObject = this.camaraUser;
             videoTag.play();
 
             // Seteo mi objeto
-            this.globalRTCRecorder = RecordRTC(cameraDevice, {
+            this.globalRTCRecorder = RecordRTC(this.camaraUser, {
                 type: 'gif',
                 frameRate: 1,
                 quality: 10,
@@ -34,18 +35,22 @@ class RtcRecorder {
             });
 
         } catch (error) {
-            console.error('ERROR: ', error);
+            console.error('ERRORCIRIJILLO: ', error);
         }
     }
 
     comenzarGrabacion() {
-        globalRTCRecorder.startRecording();
+        this.globalRTCRecorder.startRecording();
     }
 
     detenerGrabacion() {
-        globalRTCRecorder.stopRecording(async function() {
-            let blob = await globalRTCRecorder.getBlob();
-            console.log(blob);
+        this.globalRTCRecorder.stopRecording(() => {
+            let blob = this.globalRTCRecorder.getBlob();
+            invokeSaveAsDialog(blob);
         });
+    }
+
+    getRecorderState() {
+        return this.globalRTCRecorder.state;
     }
 }
