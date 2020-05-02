@@ -161,4 +161,4 @@ function ocultarVentanas(mostrar) {
     }
 }
 
-ocultarVentanas(0);
+ocultarVentanas(1);

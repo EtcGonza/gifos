@@ -33,7 +33,7 @@ function eventListenerChangeTheme() {
     const botonDay = document.getElementById('changeToDay');
     botonDay.addEventListener('click', () => {
         document.documentElement.setAttribute('theme', 'day');
-        logoGifNode.setAttribute('src', '/assets/img/gifOF_logo_day.png');
+        logoGifNode.setAttribute('src', './assets/img/gifOF_logo_day.png');
         localStorage.setItem('theme', 'day');
         changeButtonSearchTheme();
         elegirTemaNode.classList.toggle('ocultar');
@@ -42,7 +42,7 @@ function eventListenerChangeTheme() {
     const botonNight = document.getElementById('changeToNight');
     botonNight.addEventListener('click', () => {
         document.documentElement.setAttribute('theme', 'night');
-        logoGifNode.setAttribute('src', '/assets/img/gifOF_logo_night.png');
+        logoGifNode.setAttribute('src', './assets/img/gifOF_logo_night.png');
         localStorage.setItem('theme', 'night');
         changeButtonSearchTheme();
         elegirTemaNode.classList.toggle('ocultar');
