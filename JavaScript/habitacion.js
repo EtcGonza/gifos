@@ -3,7 +3,20 @@ let theme_light = true;
 
 theme_light ? document.documentElement.setAttribute('theme', 'day') : document.documentElement.setAttribute('theme', 'night');
 
-insertarMisTruchiGifos();
+// recorder = RecordRTC(stream, {
+//     type: 'gif',
+//     frameRate: 1,
+//     quality: 10,
+//     width: 360,
+//     hidden: 240,
+//     onGifRecordingStarted: function() {
+//         console.log('started');
+//     },
+// });
+
+
+
+// insertarMisTruchiGifos();
 
 // FUNCIONES DE API //
 // Cargo trending gifs.
@@ -131,3 +144,21 @@ async function getTitlesOfGifs(arrayGifs, cortarTitulo) {
 
     return gifHastag;
 }
+
+// 
+
+function ocultarVentanas(mostrar) {
+    const arregloVentanas = document.querySelectorAll('.contenedor-reproductor');
+
+    for (contador = 0; contador < arregloVentanas.length; contador++) {
+        if (mostrar == contador) {
+            console.log('Muestro: ', arregloVentanas[contador]);
+            arregloVentanas[contador].classList.replace('ocultar', 'mostrar');
+        } else {
+            console.log(arregloVentanas[contador]);
+            arregloVentanas[contador].classList.replace('mostrar', 'ocultar');
+        }
+    }
+}
+
+ocultarVentanas(0);
