@@ -1,7 +1,7 @@
 /* Mis Guifos css */
 
 
-/* UTILIDADES */
+/* UTILIDADES Y GENERALES */
 
 button {
     width: 144px;
@@ -33,6 +33,38 @@ button.button-ancho {
     flex-direction: column;
 }
 
+.margin-cero-der {
+    margin-right: 0px !important;
+}
+
+.shadow-box-naranja {
+    box-shadow: inset -1px -1px 0 0 #993A3A, inset 1px 1px 0 0 #FFFFFF;
+}
+
+.shadow-box-rosa {
+    box-shadow: inset -1px -1px 0 0 #997D97, inset 1px 1px 0 0 #FFFFFF;
+}
+
+div.ventana-chica {
+    width: 684px;
+}
+
+div.ventana-grande {
+    width: 860px;
+    height: 548px;
+}
+
+div.contenedor-instrucciones p,
+h3,
+span {
+    color: var(--color03);
+}
+
+div.contenedor-instrucciones div p {
+    display: inline;
+    font-size: 16px;
+}
+
 
 /*  */
 
@@ -40,20 +72,16 @@ button.button-ancho {
     margin-right: 7px;
 }
 
-.ventana-crear-guifo {
+.estilo-ventana-crearGuifo {
     background-color: var(--color-background-ventanas);
     box-shadow: inset -2px -2px 0 0 var(--color1-box-shadow-buscar), inset 2px 2px 0 0 var(--color2-box-shadow-buscar);
-    height: 386px;
+    min-height: 386px;
     max-width: calc(100% - 20%);
     margin-top: 78px;
     margin-bottom: 38px;
 }
 
-div.titulo-crear-guifos.instrucciones {
-    width: 684px;
-}
-
-.ventana-crear-guifo p.texto-crear-guifo {
+p.texto-margin-left {
     margin-left: 3px;
 }
 
@@ -65,32 +93,20 @@ div.titulo-crear-guifos.instrucciones {
     margin: 0px 16px 0px 25px;
 }
 
-div.contenedor-textos p,
-h3,
-span {
-    color: var(--color03);
-}
-
-div.contenedor-textos div p {
-    display: inline;
-    font-size: 16px;
-}
-
-.contenedor-textos {
+.contenedor-instrucciones {
     width: 518px;
 }
 
-div.contenedor-textos div {
+div.contenedor-instrucciones div {
     margin-top: 12px;
     margin-bottom: 12px;
 }
 
 .contenedor-botones {
-    width: 95%;
-    margin-top: 23px;
+    margin: 3.5% 5% 0% 0%;
 }
 
-button.button-cancelar {
+div.contenedor-botones button:first-child {
     margin-right: 16px;
 }
 
@@ -104,7 +120,7 @@ div.ventana-gifo-subido {
     margin: 29px 27px 0px 27px;
 }
 
-div.contenedor-gif-creado {
+div.previsualizacion-gif-creado {
     width: 50%;
 }
 
@@ -125,11 +141,6 @@ div.ventana-crear-guifo.terminado {
 
 .contenedor-boton-listo button {
     margin: 0px 46px 44px 0px;
-}
-
-div.grabacion {
-    width: 860px;
-    height: 548px;
 }
 
 div.ventana-grabacion {
@@ -158,11 +169,15 @@ button.boton-con-icono {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
+    width: 180px;
 }
 
 button.boton-con-icono span {
-    padding: 5% 20%;
+    height: 100%;
+    width: 144px;
+    padding: 3.7% 20%;
     border-left: 1.9px solid var(--color03);
+    /* box-shadow: inset -1px -1px 0 0 #993A3A, inset 1px 1px 0 0 #FFFFFF; */
 }
 
 p.recording-tiempo {
@@ -195,4 +210,8 @@ p.tiempo-restante {
 
 span.tachado {
     text-decoration: line-through;
+}
+
+img.camera-icon {
+    padding: 10px;
 }
