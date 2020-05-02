@@ -1,22 +1,12 @@
 const apiKey = "WMgym4yAIPYofgGPrganKNA7n1vg2D5Y";
-let theme_light = true;
 
+let theme_light = true;
 theme_light ? document.documentElement.setAttribute('theme', 'day') : document.documentElement.setAttribute('theme', 'night');
 
-// recorder = RecordRTC(stream, {
-//     type: 'gif',
-//     frameRate: 1,
-//     quality: 10,
-//     width: 360,
-//     hidden: 240,
-//     onGifRecordingStarted: function() {
-//         console.log('started');
-//     },
-// });
+RTCRecorder = new RtcRecorder();
+console.log(RTCRecorder);
 
-
-
-// insertarMisTruchiGifos();
+eventListenerButtons();
 
 // FUNCIONES DE API //
 // Cargo trending gifs.
@@ -161,4 +151,59 @@ function ocultarVentanas(mostrar) {
     }
 }
 
-ocultarVentanas(1);
+async function getMedia() {
+    // const constraints = {
+    //     audio: false,
+    //     video: {
+    //         width: 1280,
+    //         height: 720,
+    //         facingMode: "user",
+    //     }
+    // };
+
+    // try {
+    // const camaraUser = document.getElementById('camaraUser');
+    // cameraDevice = await navigator.mediaDevices.getUserMedia(constraints);
+    // camaraUser.srcObject = cameraDevice;
+    // camaraUser.play();
+
+    // globalRTCRecorder = RecordRTC(cameraDevice, {
+    //     type: 'gif',
+    //     frameRate: 1,
+    //     quality: 10,
+    //     // width: 360,
+    //     hidden: 240,
+    //     onGifRecordingStarted: function() {
+    //         console.log('Comence a grabar');
+    //     },
+    // });
+
+    // } catch (error) {
+    //     console.log('Tuve error: ', error);
+    // }
+}
+
+ocultarVentanas(0);
+getMedia();
+
+function eventListenerButtons() {
+    const buttonCapturar = document.getElementById('buttonCapturar');
+    const buttonComenzar = document.getElementById('buttonComenzar');
+
+    buttonComenzar.addEventListener('click', () => {
+        document.getElementById('ventanaTemplate').classList.replace('ocultar', 'mostrar');
+        document.getElementById('ventanaInstrucciones').classList.add('ocultar');
+    });
+
+    buttonCapturar.addEventListener('click', async() => {
+        // globalRTCRecorder.startRecording();
+
+        const sleep = m => new Promise(r => setTimeout(r, m));
+        await sleep(5000);
+
+        // globalRTCRecorder.stopRecording(async function() {
+        //     let blob = await globalRTCRecorder.getBlob();
+        //     console.log(blob);
+        // });
+    });
+}

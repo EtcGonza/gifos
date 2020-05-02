@@ -8,6 +8,9 @@
     <link href="https://fonts.googleapis.com/css?family=Chakra+Petch:400,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/habitacion.css">
+
+    <script src="https://www.WebRTC-Experiment.com/RecordRTC.js"></script>
+
     <title>GEtc_gif.os</title>
 </head>
 
@@ -31,7 +34,7 @@
         <div class="flex-center align-center">
 
             <!-- VISTA 1 -->
-            <!-- <div class="estilo-ventana-crearGuifo">
+            <div id="ventanaInstrucciones" class="estilo-ventana-crearGuifo">
                 <div class="fondo-degradado">
                     <p class="negrita texto-margin-left">Crear Guifos</p>
                 </div>
@@ -70,32 +73,31 @@
                     <div class="contenedor-botones flex-end">
                         <button class="button-cancelar boton-tiza">Cancelar</button>
 
-                        <button class="button-comenzar boton-rosado">Comenzar</button>
+                        <button id="buttonComenzar" class="button-comenzar boton-rosado">Comenzar</button>
                     </div>
                 </div>
-            </div> -->
+            </div>
 
             <!-- TEMPLATE -->
-            <div class="estilo-ventana-crearGuifo ventana-grande relative">
+            <div id="ventanaTemplate" class="estilo-ventana-crearGuifo ventana-grande relative ocultar">
                 <div class="fondo-degradado flex-spaceBetWeen absolute">
                     <p class="negrita texto-margin-left">Un Chequeo Antes de Empezar</p>
                     <img class="cruz" src="./assets/img/cruz.svg" alt="cruz">
                 </div>
 
-                <!-- VISTA 1 -->
                 <div class="contenedor-reproductor flex-end flex-columna ocultar">
                     <div class="flex-center ventana-grabacion absolute">
-                        <video></video>
+                        <video id="camaraUser"></video>
                     </div>
 
                     <div class="controles contenedor-boton-listo">
-                        <button class="control boton-con-icono boton-rosado">
+                        <button id="buttonCapturar" class="control boton-con-icono boton-rosado">
                             <img class="camera-icon" src="./assets/img/camera.svg" alt="camera-icon">
                             <span>Capturar</span>
                         </button>
                     </div>
                 </div>
-                <!-- VISTA 2  -->
+
                 <div class="contenedor-reproductor flex-end flex-columna ocultar">
                     <div class="flex-center ventana-grabacion absolute">
                         <img class="gif" src="https://media.giphy.com/media/xTiN0L7EW5trfOvEk0/giphy.gif" alt="gif-subiendo">
@@ -113,7 +115,6 @@
                     </div>
                 </div>
 
-                <!-- VISTA 3 -->
                 <div class="contenedor-reproductor flex-end flex-columna ocultar">
                     <div class="flex-center ventana-grabacion absolute">
                         <img class="gif" src="https://media.giphy.com/media/xTiN0L7EW5trfOvEk0/giphy.gif" alt="gif-subiendo">
@@ -136,7 +137,6 @@
                     </div>
                 </div>
 
-                <!-- VISTA 4 -->
                 <div class="contenedor-reproductor flex-end flex-columna ocultar">
                     <div class="flex-center flex-columna ventana-grabacion absolute">
                         <div class="fondo-blanco"></div>
@@ -163,7 +163,7 @@
 
 
             <!-- VISTA 3 -->
-            <!-- <div class="estilo-ventana-crearGuifo ventana-chica">
+            <!-- <div id="ventanaFinalizar" class="estilo-ventana-crearGuifo ventana-chica">
                 <div class="fondo-degradado flex-spaceBetWeen">
                     <p class="negrita texto-margin-left">Guifo Subido Con Éxito</p>
                     <img class="cruz" src="./assets/img/cruz.svg" alt="cruz">
@@ -203,7 +203,7 @@
 
     </main>
 </body>
+<script src="./JavaScript/rtcRecorderClass.js"></script>
 <script src="./JavaScript/habitacion.js"></script>
-<script src="https://www.WebRTC-Experiment.com/RecordRTC.js"></script>
 
 </html>

@@ -215,3 +215,8 @@ span.tachado {
 img.camera-icon {
     padding: 10px;
 }
+
+#userMedia {
+    width: 100%;
+    height: 100%;
+}
