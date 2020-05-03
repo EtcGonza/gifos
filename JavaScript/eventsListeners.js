@@ -15,7 +15,7 @@ function eventListenerButtonsSugerencias() {
             hideContenedorSugerencias();
             // Inserto el texto en el input y hago una busqueda con el texto.
             input.value = button.innerHTML;
-            insertarBusqueda(button.innerHTML);
+            insertarBusquedaGiphy(button.innerHTML);
         });
     });
 }
@@ -60,7 +60,7 @@ function eventListenerButtonBuscar() {
 
         // Prevengo de que se realicen consultas vacias.
         if (valueInput && valueInput.length > 0) {
-            insertarBusqueda(valueInput);
+            insertarBusquedaGiphy(valueInput);
 
         }
     });
@@ -77,7 +77,7 @@ function eventListenerButtonsVerMas() {
             // Quito el # que tengo al principio del titulo.
             valueToSearch = valueToSearch.split('#').join('');
             // Realizo la busqueda.
-            insertarBusqueda(valueToSearch);
+            insertarBusquedaGiphy(valueToSearch);
             // Llevo el scroll hacia arriba.
             window.scrollTo(0, 0);
         });
