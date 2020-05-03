@@ -78,6 +78,8 @@ function eventListenerButtonsVerMas() {
             valueToSearch = valueToSearch.split('#').join('');
             // Realizo la busqueda.
             insertarBusqueda(valueToSearch);
+            // Llevo el scroll hacia arriba.
+            window.scrollTo(0, 0);
         });
     });
 }

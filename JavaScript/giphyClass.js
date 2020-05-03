@@ -1,5 +1,6 @@
 class Giphy {
 
+    // Seteo el apiKey y la cantidad de gifs que quiero traer por llamada.
     constructor(setLimitGifs, setApiKey) {
         this.apiKey = setApiKey;
         this.limitGifs = setLimitGifs;
@@ -31,6 +32,7 @@ class Giphy {
         }
     }
 
+    // Me trae un gif random.
     async getRandomGif() {
         const consultaRandom = await fetch(`http://api.giphy.com/v1/gifs/random?api_key=${this.apiKey}`);
 

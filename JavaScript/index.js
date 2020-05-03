@@ -1,7 +1,14 @@
-const giphy = new Giphy(24, 'WMgym4yAIPYofgGPrganKNA7n1vg2D5Y');
-
 let theme_light = true;
 theme_light ? document.documentElement.setAttribute('theme', 'day') : document.documentElement.setAttribute('theme', 'night');
+const giphy = new Giphy(24, 'WMgym4yAIPYofgGPrganKNA7n1vg2D5Y');
+
+
+// Llamo Funciones para iniciar
+checkStorageTheme();
+insertarTrendingGiphy();
+insertarSugerenciasGiphy();
+getInputChanges();
+infinitiScroll();
 
 // Traigo palabras sugeridas, API datamuse.
 async function getSugerencias(value) {
@@ -9,8 +16,12 @@ async function getSugerencias(value) {
     const dataSugerencias = await consulta.json();
     return dataSugerencias;
 }
-// FUNCIONES GENERALES //
-async function insertarSugerencias2() {
+
+
+
+// 
+// FUNCIONES de DOM //
+async function insertarSugerenciasGiphy() {
     nodesImg = document.querySelectorAll('.gif-sugerencia .gif');
     nodesParrafos = document.querySelectorAll('.descripcion-gif');
 
@@ -32,9 +43,8 @@ async function insertarSugerencias2() {
         nodesParrafos[contador].prepend(createParrafo);
     }
 }
-
 // Inserto los trending en el html.
-async function insertarTrending() {
+async function insertarTrendingGiphy() {
     let tendenciasNodes = document.querySelector('.trending');
     let posicion = 'izquierda';
     let gifs = await giphy.getTrending();
@@ -62,7 +72,7 @@ async function insertarTrending() {
     }
 }
 // Inserto lo que se busco con el input en el html.
-async function insertarBusqueda(busqueda) {
+async function insertarBusquedaGiphy(busqueda) {
     let busquedaVieja = document.querySelector('.resultado-busqueda');
     let nuevaBusqueda = document.createElement('div');
     nuevaBusqueda.setAttribute('class', 'grid resultado-busqueda');
@@ -99,34 +109,15 @@ async function insertarBusqueda(busqueda) {
 
     showHideSearches(true);
 }
-// Recibe un arreglo de gifs y devuelve los titulos de todos esos gifs.
-async function getTitlesOfGifs(arrayGifs, cortarTitulo) {
-    let gifHastag = [];
+// Oculto o muestro el contenedor que contiene las busquedas.
+function showHideSearches(mostrar) {
+    let contenedorBusquedaNode = document.querySelector('.contenedor-busquedas');
 
-    if (cortarTitulo == true) {
-        // Corto el titulo por partes y le inserto a cada parte un hastag.
-        for (contador = 0; contador < arrayGifs.length; contador++) {
-            gifHastag[contador] = ` #${arrayGifs[contador].title.replace(/ /g, " #")}`;
-            let deleteIndex = gifHastag[contador].indexOf('#GIF');
-            gifHastag[contador] = gifHastag[contador].slice(0, deleteIndex);
-        }
-
+    if (mostrar) {
+        contenedorBusquedaNode.classList.replace('ocultar', 'mostrar');
     } else {
-        // No corto el titulo por partes y solo le agrego el hastag adelante.
-        for (contador = 0; contador < arrayGifs.length; contador++) {
-            gifHastag[contador] = ` #${arrayGifs[contador].title}`;
-            let deleteIndex = gifHastag[contador].indexOf('GIF');
-            gifHastag[contador] = gifHastag[contador].slice(0, deleteIndex);
-        }
-
+        contenedorBusquedaNode.classList.replace('mostrar', 'ocultar');
     }
-
-    return gifHastag;
-}
-// Se ejecuta cada vez que cambia el valor del input.
-function getInputChanges() {
-    changeButtonSearchTheme();
-    insertarSugerencias();
 }
 // Setea toda la estructura grid de gifs. 
 function createGridItem(imgSrc, hastagsText, posicionInsertar) {
@@ -165,6 +156,72 @@ function createGridItem(imgSrc, hastagsText, posicionInsertar) {
 
     return divContenedor;
 }
+
+
+
+// 
+// FUNCIONES GENERALES
+// Se ejecuta cada vez que cambia el valor del input.
+function getInputChanges() {
+    changeButtonSearchTheme();
+    insertarSugerenciasDataMuse();
+}
+// Chequea si existe un theme en el storage, y si existe lo carga.
+async function checkStorageTheme() {
+    const storageTheme = await localStorage.getItem('theme');
+    let logoGifNode = document.querySelector('.logo-gif');
+
+    if (storageTheme == 'day') {
+        document.documentElement.setAttribute('theme', 'day');
+        logoGifNode.setAttribute('src', '/assets/img/gifOF_logo_day.png');
+        changeButtonSearchTheme();
+    } else if (storageTheme == 'night') {
+        document.documentElement.setAttribute('theme', 'night');
+        logoGifNode.setAttribute('src', '/assets/img/gifOF_logo_night.png');
+        changeButtonSearchTheme();
+    } else {
+        document.documentElement.setAttribute('theme', 'day');
+        logoGifNode.setAttribute('src', '/assets/img/gifOF_logo_day.png');
+        changeButtonSearchTheme();
+    }
+}
+// InfinitiScroll para seguir cargando trending gifs.
+function infinitiScroll() {
+    window.onscroll = function(ev) {
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+            insertarTrendingGiphy();
+        }
+    };
+}
+// Recibe un arreglo de gifs y devuelve los titulos de todos esos gifs.
+async function getTitlesOfGifs(arrayGifs, cortarTitulo) {
+    let gifHastag = [];
+
+    if (cortarTitulo == true) {
+        // Corto el titulo por partes y le inserto a cada parte un hastag.
+        for (contador = 0; contador < arrayGifs.length; contador++) {
+            gifHastag[contador] = ` #${arrayGifs[contador].title.replace(/ /g, " #")}`;
+            let deleteIndex = gifHastag[contador].indexOf('#GIF');
+            gifHastag[contador] = gifHastag[contador].slice(0, deleteIndex);
+        }
+
+    } else {
+        // No corto el titulo por partes y solo le agrego el hastag adelante.
+        for (contador = 0; contador < arrayGifs.length; contador++) {
+            gifHastag[contador] = ` #${arrayGifs[contador].title}`;
+            let deleteIndex = gifHastag[contador].indexOf('GIF');
+            gifHastag[contador] = gifHastag[contador].slice(0, deleteIndex);
+        }
+
+    }
+
+    return gifHastag;
+}
+
+
+
+// 
+// VALIDACIONES PARA LOS GIFS
 // Chequea si el titulo del gif es valido y sino agrega uno por default.
 function checkGifTitle(titleGif) {
     if (titleGif == ' ' || titleGif == ' #' || titleGif == undefined) {
@@ -188,36 +245,11 @@ function checkUrlGif(arrayGifImages) {
     return 'https://media.giphy.com/media/xTiN0L7EW5trfOvEk0/giphy.gif';
 
 }
-// Chequea si existe un theme en el storage, y si existe lo carga.
-async function checkStorageTheme() {
-    const storageTheme = await localStorage.getItem('theme');
-    let logoGifNode = document.querySelector('.logo-gif');
 
-    if (storageTheme == 'day') {
-        document.documentElement.setAttribute('theme', 'day');
-        logoGifNode.setAttribute('src', '/assets/img/gifOF_logo_day.png');
-        changeButtonSearchTheme();
-    } else if (storageTheme == 'night') {
-        document.documentElement.setAttribute('theme', 'night');
-        logoGifNode.setAttribute('src', '/assets/img/gifOF_logo_night.png');
-        changeButtonSearchTheme();
-    } else {
-        document.documentElement.setAttribute('theme', 'day');
-        logoGifNode.setAttribute('src', '/assets/img/gifOF_logo_day.png');
-        changeButtonSearchTheme();
-    }
-}
-// Oculto o muestro el contenedor que contiene las busquedas.
-function showHideSearches(mostrar) {
-    let contenedorBusquedaNode = document.querySelector('.contenedor-busquedas');
 
-    if (mostrar) {
-        contenedorBusquedaNode.classList.replace('ocultar', 'mostrar');
-    } else {
-        contenedorBusquedaNode.classList.replace('mostrar', 'ocultar');
-    }
-}
-// Cambio el color del boton de buscar.
+// 
+// CAMBIAR COLOR BOTON BUSCAR
+// Seteo el boton buscar segun los valores que recibo.
 function changeButtonSearchTheme() {
     let value = document.getElementById('input_buscar').value;
     const buttonObjTheme = getButtonObjTheme();
@@ -231,6 +263,15 @@ function changeButtonSearchTheme() {
             buttonObjTheme.backgroundColorInactive,
             buttonObjTheme.lupaInactive);
     }
+}
+// Cambio el color del boton de buscar.
+function changeSearchButtonColor(colorText, backgroundColor, pathLupaIcon) {
+    const boton = document.getElementById('boton-buscar');
+    const lupaIcon = document.querySelector('.icono-lupa');
+
+    boton.style.backgroundColor = backgroundColor;
+    boton.style.color = colorText;
+    lupaIcon.setAttribute('src', pathLupaIcon);
 }
 // Me devuelve un objeto con los estilo que tiene que tener el boton segun el theme.
 function getButtonObjTheme() {
@@ -264,22 +305,18 @@ function getButtonObjTheme() {
     }
 
 }
-// Seteo el boton buscar segun los valores que recibo.
-function changeSearchButtonColor(colorText, backgroundColor, pathLupaIcon) {
-    const boton = document.getElementById('boton-buscar');
-    const lupaIcon = document.querySelector('.icono-lupa');
 
-    boton.style.backgroundColor = backgroundColor;
-    boton.style.color = colorText;
-    lupaIcon.setAttribute('src', pathLupaIcon);
-}
+
+
+// 
+// FUNCIONES PARA SUGERENCIAS DE BUSQUEDA
 // Inserto sugerencias segun lo que se escribe en el input y me devuelve la API.
-async function insertarSugerencias() {
+async function insertarSugerenciasDataMuse() {
     let value = document.getElementById('input_buscar').value;
     const buttonsNodes = document.querySelectorAll('button.button-sugerencia');
     const divSugerencias = document.querySelector('div.sugerencias-busqueda');
 
-    if (value.length > 3) {
+    if (value.length > 1) {
         // Consulto por sugerencias
         const sugerencias = await getSugerencias(value);
         // Muestro el div que contiene los botones
@@ -307,17 +344,3 @@ function hideContenedorSugerencias() {
         buttonsNodes[contador].classList.replace('mostrar', 'ocultar');
     }
 }
-
-function infinitiScroll() {
-    window.onscroll = function(ev) {
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-            insertarTrending();
-        }
-    };
-}
-
-infinitiScroll();
-checkStorageTheme();
-insertarTrending();
-insertarSugerencias2();
-getInputChanges();
