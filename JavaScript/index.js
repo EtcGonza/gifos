@@ -1,48 +1,8 @@
-const apiKey = "WMgym4yAIPYofgGPrganKNA7n1vg2D5Y";
-let theme_light = true;
+const giphy = new Giphy(24, 'WMgym4yAIPYofgGPrganKNA7n1vg2D5Y');
 
+let theme_light = true;
 theme_light ? document.documentElement.setAttribute('theme', 'day') : document.documentElement.setAttribute('theme', 'night');
 
-checkStorageTheme();
-insertarTrending();
-insertarSugerencias();
-getInputChanges();
-
-// FUNCIONES DE API //
-// Cargo trending gifs.
-async function getTrending(limitGifs) {
-    const consultaTrending = await fetch(`https://api.giphy.com/v1/gifs/trending?api_key=WMgym4yAIPYofgGPrganKNA7n1vg2D5Y&limit=${limitGifs}&rating=G`);
-
-    if (consultaTrending.ok) {
-        const trendingJson = await consultaTrending.json();
-        return trendingJson.data;
-    } else {
-        console.log('Error al traer trending.');
-    }
-}
-// Recibo gifs segun un valor ingresado.
-async function buscarApi(searchParam) {
-    const consultaSearch = await fetch(`http://api.giphy.com/v1/gifs/search?q=${searchParam}&api_key=WMgym4yAIPYofgGPrganKNA7n1vg2D5Y`);
-
-    if (consultaSearch.ok) {
-        const jsonSearch = await consultaSearch.json();
-        return jsonSearch.data;
-    } else {
-        console.log('Error al traer buscar.');
-    }
-
-}
-// Traigo un gif random.
-async function getRandomGif() {
-    const consultaRandom = await fetch(`http://api.giphy.com/v1/gifs/random?api_key=WMgym4yAIPYofgGPrganKNA7n1vg2D5Y`);
-
-    if (consultaRandom.ok) {
-        const jsonRandom = await consultaRandom.json();
-        return jsonRandom.data;
-    } else {
-        console.log('Error al traer Gif Random.');
-    }
-}
 // Traigo palabras sugeridas, API datamuse.
 async function getSugerencias(value) {
     const consulta = await fetch(`http://api.datamuse.com/sug?max=3&s=${value}`);
@@ -50,23 +10,17 @@ async function getSugerencias(value) {
     return dataSugerencias;
 }
 // FUNCIONES GENERALES //
-async function insertarSugerencias() {
+async function insertarSugerencias2() {
     nodesImg = document.querySelectorAll('.gif-sugerencia .gif');
     nodesParrafos = document.querySelectorAll('.descripcion-gif');
 
-    // Array que tendra mis gifs.
-    let gifsRandom = [];
-
-    // Pido cuatro gifs randoms.
-    for (let contador = 0; contador < 4; contador++) {
-        gifsRandom.push(await getRandomGif());
-    }
+    // Array que tendra mis gifs. Pido cuatro gifs randoms.
+    let gifsRandom = await giphy.getFourRandomsGifs();
 
     // Arreglo con los titulos de mis gifs randoms.
     const arrayGifsHastag = await getTitlesOfGifs(gifsRandom, false);
 
     for (let contador = 0; contador < 4; contador++) {
-
         let urlChequeada = checkUrlGif(gifsRandom[contador].images);
 
         nodesImg[contador].setAttribute('src', urlChequeada);
@@ -78,11 +32,12 @@ async function insertarSugerencias() {
         nodesParrafos[contador].prepend(createParrafo);
     }
 }
+
 // Inserto los trending en el html.
 async function insertarTrending() {
     let tendenciasNodes = document.querySelector('.trending');
     let posicion = 'izquierda';
-    let gifs = await getTrending(34);
+    let gifs = await giphy.getTrending();
     const gifsHastag = await getTitlesOfGifs(gifs, true);
 
     // Inserto los GIFS
@@ -112,7 +67,7 @@ async function insertarBusqueda(busqueda) {
     let nuevaBusqueda = document.createElement('div');
     nuevaBusqueda.setAttribute('class', 'grid resultado-busqueda');
 
-    let resultadoGifs = await buscarApi(busqueda);
+    let resultadoGifs = await giphy.buscarApi(busqueda);
     const gifsHastag = await getTitlesOfGifs(resultadoGifs, true);
 
     // Inserto los GIFS
@@ -352,3 +307,17 @@ function hideContenedorSugerencias() {
         buttonsNodes[contador].classList.replace('mostrar', 'ocultar');
     }
 }
+
+function infinitiScroll() {
+    window.onscroll = function(ev) {
+        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+            insertarTrending();
+        }
+    };
+}
+
+infinitiScroll();
+checkStorageTheme();
+insertarTrending();
+insertarSugerencias2();
+getInputChanges();

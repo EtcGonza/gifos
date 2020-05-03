@@ -82,31 +82,31 @@ function mostrarControl(mostrar) {
 }
 
 async function subirGifo() {
-    const miForm = new FormData();
+    let miForm = new FormData();
     miForm.append('file', RTCRecorder.getMiBlob(), 'myGif.gif');
+    miForm.append('api_key', apiKey);
     console.log('MiForm: ', miForm.get('file'));
 
-    const respuesta = await fetch(`https://upload.giphy.com/v1/gifs?${apiKey}`, {
-        mode: 'no-cors',
+    let cualca = fetch(`https://upload.giphy.com/v1/gifs?api_key=WMgym4yAIPYofgGPrganKNA7n1vg2D5Y`, {
         method: 'POST',
+        body: miForm,
+        mode: 'no-cors',
         headers: {
             'Content-Type': 'application/json'
-        },
-        body: miForm
-    })
-
-    .then((response) => {
-        const dataJson = response.json();
-        console.log('Exitoooo', response);
-
-    })
-
-    .catch(error => {
-        console.log('Cualca amigo... ', error);
+        }
     });
 
-    const miGif = respuesta;
-    console.log(miGif);
+    let json = await cualca.json();
+    console.log('en json ', json);
+
+    // .then(async(response) => {
+    //     console.log('Mi response: ', response);
+    //     response.json();
+    // })
+
+    // .catch(error => {
+    //     console.log('Cualca amigo... ', error);
+    // });
 }
 
 
