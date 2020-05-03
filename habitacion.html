@@ -88,6 +88,7 @@
                 <div class="contenedor-reproductor flex-end flex-columna">
                     <div class="flex-center ventana-grabacion absolute">
                         <video id="videoFrame"></video>
+                        <img id="previsualizarGif" class="ocultar" alt="previsualizarGif">
                     </div>
 
                     <!--  -->
@@ -106,7 +107,7 @@
                             00:00:03:06
                         </p>
 
-                        <button class="control boton-con-icono boton-naranja shadow-box-naranja">
+                        <button id="buttonListo" class="control boton-con-icono boton-naranja shadow-box-naranja">
                             <img class="camera-icon" src="./assets/img/recording.svg" alt="camera-icon">
                             <span>Listo</span>
                         </button>
@@ -120,11 +121,11 @@
                         </p>
 
                         <div class="flex-spaceBetWeen">
-                            <button class="control margin-cero-der boton-tiza shadow-box-rosa">
+                            <button id="buttonRepetir" class="control margin-cero-der boton-tiza shadow-box-rosa">
                                 <span>Repetir Captura</span>
                             </button>
 
-                            <button class="control boton-rosado shadow-box-rosa">
+                            <button id="buttonSubir" class="control boton-rosado shadow-box-rosa">
                                 <span>Subir Guifo</span>
                             </button>
                         </div>

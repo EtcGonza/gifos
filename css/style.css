@@ -488,3 +488,8 @@ div.expand-2 img {
 .ocultar {
     display: none;
 }
+
+#previsualizarGif {
+    width: 100%;
+    height: 100%;
+}

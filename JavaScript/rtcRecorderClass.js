@@ -12,6 +12,7 @@ class RtcRecorder {
 
         this.globalRTCRecorder = null;
         this.camaraUser = null;
+        this.miBlob = null;
     }
 
     async getMedia(videoTag) {
@@ -45,12 +46,23 @@ class RtcRecorder {
 
     detenerGrabacion() {
         this.globalRTCRecorder.stopRecording(() => {
-            let blob = this.globalRTCRecorder.getBlob();
-            invokeSaveAsDialog(blob);
+            this.miBlob = this.globalRTCRecorder.getBlob();
         });
     }
 
     getRecorderState() {
         return this.globalRTCRecorder.state;
+    }
+
+    destruirGrabacion() {
+        this.globalRTCRecorder.reset();
+    }
+
+    getMiBlob() {
+        return this.miBlob;
+    }
+
+    getUrlBlob() {
+        return URL.createObjectURL(this.miBlob);
     }
 }

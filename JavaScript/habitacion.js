@@ -4,7 +4,70 @@ theme_light ? document.documentElement.setAttribute('theme', 'day') : document.d
 //
 
 RTCRecorder = new RtcRecorder();
+getMedia();
 eventListenerButtons();
+mostrarControl(0);
+
+async function getMedia() {
+    const ventanasDeGrabacion = document.getElementById('videoFrame');
+    RTCRecorder.getMedia(ventanasDeGrabacion);
+}
+
+function eventListenerButtons() {
+    const buttonCapturar = document.getElementById('buttonCapturar');
+    const buttonComenzar = document.getElementById('buttonComenzar');
+    const buttonListo = document.getElementById('buttonListo');
+    const buttonRepetir = document.getElementById('buttonRepetir');
+    const buttonSubir = document.getElementById('buttonSubir');
+    const videoNode = document.getElementById('videoFrame');
+    const previsualizarGifNode = document.getElementById('previsualizarGif');
+
+    buttonComenzar.addEventListener('click', () => {
+        document.getElementById('ventanaTemplate').classList.replace('ocultar', 'mostrar');
+        document.getElementById('ventanaInstrucciones').classList.add('ocultar');
+    });
+
+    buttonCapturar.addEventListener('click', async() => {
+        console.log('COMENCE A GRABAR POR PRIMERA VEZ');
+        if (RTCRecorder.getRecorderState() === "inactive") {
+            RTCRecorder.comenzarGrabacion();
+            mostrarControl(1);
+        }
+    });
+
+    buttonListo.addEventListener('click', () => {
+        console.log('DETUVE LA GRABACION, LISTO');
+
+        mostrarControl(2);
+
+        RTCRecorder.detenerGrabacion();
+
+        const urlBlob = RTCRecorder.getUrlBlob();
+
+        videoNode.classList.add('ocultar');
+        previsualizarGifNode.classList.remove('ocultar');
+
+        previsualizarGifNode.setAttribute('src', urlBlob);
+    });
+
+    buttonRepetir.addEventListener('click', () => {
+        console.log('REPITO GRABACION.');
+
+        mostrarControl(1);
+
+        RTCRecorder.destruirGrabacion();
+        RTCRecorder.comenzarGrabacion();
+
+        videoNode.classList.remove('ocultar');
+        previsualizarGifNode.classList.add('ocultar');
+    });
+
+    buttonSubir.addEventListener('click', () => {
+        console.log('Elegi subir el gif.');
+        subirGifo();
+    });
+
+}
 
 function mostrarControl(mostrar) {
     const arregloControles = document.querySelectorAll('.controles');
@@ -18,34 +81,60 @@ function mostrarControl(mostrar) {
     }
 }
 
-async function getMedia() {
-    const ventanasDeGrabacion = document.getElementById('videoFrame');
-    RTCRecorder.getMedia(ventanasDeGrabacion);
-}
+async function subirGifo() {
+    const miForm = new FormData();
+    miForm.append('file', RTCRecorder.getMiBlob(), 'myGif.gif');
+    console.log('MiForm: ', miForm.get('file'));
 
-function eventListenerButtons() {
-    const buttonCapturar = document.getElementById('buttonCapturar');
-    const buttonComenzar = document.getElementById('buttonComenzar');
+    const respuesta = await fetch(`https://upload.giphy.com/v1/gifs?${apiKey}`, {
+        mode: 'no-cors',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: miForm
+    })
 
-    buttonComenzar.addEventListener('click', () => {
-        document.getElementById('ventanaTemplate').classList.replace('ocultar', 'mostrar');
-        document.getElementById('ventanaInstrucciones').classList.add('ocultar');
+    .then((response) => {
+        const dataJson = response.json();
+        console.log('Exitoooo', response);
+
+    })
+
+    .catch(error => {
+        console.log('Cualca amigo... ', error);
     });
 
-    buttonCapturar.addEventListener('click', async() => {
-        if (RTCRecorder.getRecorderState() === "inactive") {
-            RTCRecorder.comenzarGrabacion();
-        }
-
-        const sleep = m => new Promise(r => setTimeout(r, m));
-        await sleep(50000000);
-
-        RTCRecorder.detenerGrabacion();
-    });
+    const miGif = respuesta;
+    console.log(miGif);
 }
 
-getMedia();
-mostrarControl(0);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
