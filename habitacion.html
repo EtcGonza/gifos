@@ -79,20 +79,24 @@
             </div>
 
             <!-- TEMPLATE -->
-            <div id="ventanaTemplate" class="estilo-ventana-crearGuifo ventana-grande relative ocultar">
-                <div class="fondo-degradado flex-spaceBetWeen absolute">
+            <div id="ventanaTemplate" class="estilo-ventana-crearGuifo ventana-grande ocultar relative">
+                <div class="fondo-degradado flex-spaceBetWeen">
                     <p class="negrita texto-margin-left">Un Chequeo Antes de Empezar</p>
                     <img class="cruz" src="./assets/img/cruz.svg" alt="cruz">
                 </div>
 
-                <div class="contenedor-reproductor flex-end flex-columna">
-                    <div class="flex-center ventana-grabacion absolute">
-                        <video id="videoFrame"></video>
-                        <img id="previsualizarGif" class="ocultar" alt="previsualizarGif">
-                    </div>
+                <!-- <div class="contenedor-reproductor flex-end flex-columna"> -->
+                <div class="flex-center ventana-grabacion">
+                    <video id="videoFrame" class="videoFrame"></video>
+                    <img id="previsualizarGif" class="ocultar" alt="previsualizarGif">
+                </div>
 
-                    <!--  -->
+                <!--  -->
 
+                <!--  -->
+                <!-- </div> -->
+
+                <div class="posicionar-bottom">
                     <div class="controles contenedor-boton-listo ocultar">
                         <button id="buttonCapturar" class="control boton-con-icono boton-rosado">
                             <img class="camera-icon" src="./assets/img/camera.svg" alt="camera-icon">
@@ -130,8 +134,8 @@
                             </button>
                         </div>
                     </div>
-                    <!--  -->
                 </div>
+
             </div>
             <!-- FIN TEMPLATE -->
             <!--  -->

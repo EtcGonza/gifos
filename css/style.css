@@ -486,10 +486,5 @@ div.expand-2 img {
 /* FIN TENDENCIAS */
 
 .ocultar {
-    display: none;
-}
-
-#previsualizarGif {
-    width: 100%;
-    height: 100%;
+    display: none !important;
 }

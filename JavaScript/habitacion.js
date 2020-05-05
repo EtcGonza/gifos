@@ -87,26 +87,24 @@ async function subirGifo() {
     miForm.append('api_key', apiKey);
     console.log('MiForm: ', miForm.get('file'));
 
-    let cualca = fetch(`https://upload.giphy.com/v1/gifs?api_key=WMgym4yAIPYofgGPrganKNA7n1vg2D5Y`, {
+    let cualca = await fetch(`https://upload.giphy.com/v1/gifs?api_key=WMgym4yAIPYofgGPrganKNA7n1vg2D5Y`, {
         method: 'POST',
         body: miForm,
         mode: 'no-cors',
         headers: {
             'Content-Type': 'application/json'
         }
+    })
+
+    .then(async response => {
+        return await response.json();
+        // console.log('Termine response...', response);
+    }).catch(error => {
+        console.log('Tiraste cualca pibe...');
     });
 
-    let json = await cualca.json();
-    console.log('en json ', json);
+    console.log(cualca);
 
-    // .then(async(response) => {
-    //     console.log('Mi response: ', response);
-    //     response.json();
-    // })
-
-    // .catch(error => {
-    //     console.log('Cualca amigo... ', error);
-    // });
 }
 
 
