@@ -62,7 +62,7 @@ class Giphy {
 
         if (consultaFetch.ok) {
             const dataJson = await consultaFetch.json();
-            return dataJson;
+            return dataJson.data;
         } else {
             console.error('No se pudo traer el gif by ID.');
         }

@@ -9,6 +9,8 @@ eventListenerButtons();
 mostrarControl(0);
 
 checkStorageMisGifos();
+insertarMisGuifos();
+
 
 async function getMedia() {
     const ventanasDeGrabacion = document.getElementById('videoFrame');
@@ -103,6 +105,7 @@ async function subirGifo() {
 
     // Pusheo el id de mi nuevo gif al array donde tengo todos los ids de mis gifs.
     giphy.pushNewIdGif(myGif.data.id);
+    insertarMiNuevoGif(myGif.data.id);
     setMisGuifosIdToStorage();
     console.log('Guarde gifs en storage');
 }
@@ -125,112 +128,7 @@ function setMisGuifosIdToStorage() {
     localStorage.setItem(`misIdGuifos`, misIdGuifosStringify);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-const apiKey = "WMgym4yAIPYofgGPrganKNA7n1vg2D5Y";
-
-
-// FUNCIONES DE API //
-// Cargo trending gifs.
-async function getTrending(limitGifs) {
-    const consultaTrending = await fetch(`https://api.giphy.com/v1/gifs/trending?api_key=WMgym4yAIPYofgGPrganKNA7n1vg2D5Y&limit=${limitGifs}&rating=G`);
-
-    if (consultaTrending.ok) {
-        const trendingJson = await consultaTrending.json();
-        return trendingJson.data;
-    } else {
-        console.log('Error al traer trending.');
-    }
-}
-
-// Inserto los trending en el html.
-async function insertarMisTruchiGifos() {
-    let tendenciasNodes = document.querySelector('.misGuifos');
-    let posicion = 'izquierda';
-    let gifs = await getTrending(34);
-    const gifsHastag = await getTitlesOfGifs(gifs, true);
-
-    // Inserto los GIFS
-    for (contador = 0, bandera = 1; contador < gifs.length; contador++) {
-        let urlChequeada = checkUrlGif(gifs[contador].images);
-
-        if (bandera == 5 && posicion == 'izquierda') {
-            bandera = 1;
-            posicion = 'derecha';
-            const nuevoNodo = createGridItem(urlChequeada, gifsHastag[contador], 'izquierda');
-            tendenciasNodes.appendChild(nuevoNodo);
-        } else if (bandera == 5 && posicion == 'derecha') {
-            bandera = 1;
-            posicion = 'izquierda';
-            const nuevoNodo = createGridItem(urlChequeada, gifsHastag[contador], 'derecha');
-            tendenciasNodes.appendChild(nuevoNodo);
-        } else {
-            const nuevoNodo = createGridItem(urlChequeada, gifsHastag[contador]);
-            tendenciasNodes.appendChild(nuevoNodo);
-            bandera++;
-        }
-    }
-}
-
-// Setea toda la estructura grid de gifs. 
-function createGridItem(imgSrc, hastagsText, posicionInsertar) {
+function createGridItem(imgSrc, posicionInsertar) {
 
     let divContenedor = document.createElement('div');
 
@@ -239,10 +137,6 @@ function createGridItem(imgSrc, hastagsText, posicionInsertar) {
 
     let divHastag = document.createElement('div');
     divHastag.setAttribute('class', 'contenedor-gif relative');
-
-    let parrafoTag = document.createElement('p');
-    parrafoTag.innerHTML = checkGifTitle(hastagsText);
-    parrafoTag.setAttribute('class', 'fondo-degradado estiloTituloGif absolute hastags');
 
     if (posicionInsertar == undefined) {
         divContenedor.setAttribute('class', 'grid-item gif-tendencia');
@@ -262,18 +156,46 @@ function createGridItem(imgSrc, hastagsText, posicionInsertar) {
 
     divHastag.appendChild(imgTag);
     divContenedor.appendChild(divHastag);
-    divHastag.appendChild(parrafoTag);
 
     return divContenedor;
 }
-// Chequea si el titulo del gif es valido y sino agrega uno por default.
-function checkGifTitle(titleGif) {
-    if (titleGif == ' ' || titleGif == ' #' || titleGif == undefined) {
-        return "This Gif doesn't have a title";
-    } else {
-        return titleGif;
+
+async function insertarMisGuifos() {
+    let misGuifosNode = document.querySelector('.misGuifos');
+    let posicion = 'izquierda';
+    let misGuifos = await giphy.getMisGifsById();
+
+    // Inserto los GIFS
+    for (contador = 0, bandera = 1; contador < misGuifos.length; contador++) {
+        let urlChequeada = checkUrlGif(misGuifos[contador].images);
+
+        if (bandera == 5 && posicion == 'izquierda') {
+            bandera = 1;
+            posicion = 'derecha';
+            const nuevoNodo = createGridItem(urlChequeada, 'izquierda');
+            misGuifosNode.appendChild(nuevoNodo);
+        } else if (bandera == 5 && posicion == 'derecha') {
+            bandera = 1;
+            posicion = 'izquierda';
+            const nuevoNodo = createGridItem(urlChequeada, 'derecha');
+            misGuifosNode.appendChild(nuevoNodo);
+        } else {
+            const nuevoNodo = createGridItem(urlChequeada);
+            misGuifosNode.appendChild(nuevoNodo);
+            bandera++;
+        }
     }
 }
+
+async function insertarMiNuevoGif(idGif) {
+    let misGuifosNode = document.querySelector('.misGuifos');
+    const miGif = await giphy.getGifById(idGif);
+
+    let urlChequeada = checkUrlGif(miGif.images);
+    const nuevoNodo = createGridItem(urlChequeada);
+    misGuifosNode.appendChild(nuevoNodo);
+}
+
 // Chequea si la URL del gif es valida, sino inserta un gif por default.
 function checkUrlGif(arrayGifImages) {
     for (let key in arrayGifImages) {
@@ -286,30 +208,7 @@ function checkUrlGif(arrayGifImages) {
 
     // Si llegue aca, significa que no habia ninguna url valida.
     // Devuelvo un gif predeterminado para cuando esto sucede.
+    console.log('Ninguna URL valida');
     return 'https://media.giphy.com/media/xTiN0L7EW5trfOvEk0/giphy.gif';
 
-}
-
-async function getTitlesOfGifs(arrayGifs, cortarTitulo) {
-    let gifHastag = [];
-
-    if (cortarTitulo == true) {
-        // Corto el titulo por partes y le inserto a cada parte un hastag.
-        for (contador = 0; contador < arrayGifs.length; contador++) {
-            gifHastag[contador] = ` #${arrayGifs[contador].title.replace(/ /g, " #")}`;
-            let deleteIndex = gifHastag[contador].indexOf('#GIF');
-            gifHastag[contador] = gifHastag[contador].slice(0, deleteIndex);
-        }
-
-    } else {
-        // No corto el titulo por partes y solo le agrego el hastag adelante.
-        for (contador = 0; contador < arrayGifs.length; contador++) {
-            gifHastag[contador] = ` #${arrayGifs[contador].title}`;
-            let deleteIndex = gifHastag[contador].indexOf('GIF');
-            gifHastag[contador] = gifHastag[contador].slice(0, deleteIndex);
-        }
-
-    }
-
-    return gifHastag;
 }
