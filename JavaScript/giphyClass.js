@@ -5,6 +5,7 @@ class Giphy {
         this.apiKey = setApiKey;
         this.limitGifs = setLimitGifs;
         this.offsetHistory = 0;
+        this.misIdGuifos = [];
     }
 
     // Cargo trending gifs.
@@ -54,6 +55,41 @@ class Giphy {
         }
 
         return auxArrayGifs;
+    }
+
+    async getGifById(idGif) {
+        const consultaFetch = await fetch(`https://api.giphy.com/v1/gifs/${idGif}?api_key=${this.apiKey}`);
+
+        if (consultaFetch.ok) {
+            const dataJson = await consultaFetch.json();
+            return dataJson;
+        } else {
+            console.error('No se pudo traer el gif by ID.');
+        }
+    }
+
+    async getMisGifsById() {
+        let misGifs = [];
+
+        for (let contador = 0; contador < this.misIdGuifos.length; contador++) {
+            let gif = await this.getGifById(this.misIdGuifos[contador]);
+            misGifs.push(gif);
+        }
+
+        return misGifs;
+    }
+
+    async pushNewIdGif(idGif) {
+        this.misIdGuifos.push(idGif);
+        console.log('Nuevo gif pusheado.', this.misIdGuifos);
+    }
+
+    getMisIdGuifos() {
+        return this.misIdGuifos;
+    }
+
+    setMisIdGuifos(misIdGuifos) {
+        this.misIdGuifos = misIdGuifos;
     }
 
 }

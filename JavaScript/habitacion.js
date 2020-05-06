@@ -2,11 +2,13 @@ let theme_light = true;
 theme_light ? document.documentElement.setAttribute('theme', 'day') : document.documentElement.setAttribute('theme', 'night');
 
 //
-
-RTCRecorder = new RtcRecorder();
+let giphy = new Giphy(24, 'WMgym4yAIPYofgGPrganKNA7n1vg2D5Y');
+let RTCRecorder = new RtcRecorder();
 getMedia();
 eventListenerButtons();
 mostrarControl(0);
+
+checkStorageMisGifos();
 
 async function getMedia() {
     const ventanasDeGrabacion = document.getElementById('videoFrame');
@@ -82,33 +84,46 @@ function mostrarControl(mostrar) {
 }
 
 async function subirGifo() {
+    const gifName = 'MyGifNumber' + giphy.getMisIdGuifos().length + '.gif';
+
     let miForm = new FormData();
-    miForm.append('file', RTCRecorder.getMiBlob(), 'myGif.gif');
-    miForm.append('api_key', apiKey);
+    miForm.append('file', RTCRecorder.getMiBlob(), gifName);
     console.log('MiForm: ', miForm.get('file'));
 
-    let cualca = await fetch(`https://upload.giphy.com/v1/gifs?api_key=WMgym4yAIPYofgGPrganKNA7n1vg2D5Y`, {
+    let myGif = await fetch(`https://upload.giphy.com/v1/gifs?api_key=WMgym4yAIPYofgGPrganKNA7n1vg2D5Y`, {
         method: 'POST',
         body: miForm,
-        mode: 'no-cors',
-        headers: {
-            'Content-Type': 'application/json'
-        }
     })
 
     .then(async response => {
         return await response.json();
-        // console.log('Termine response...', response);
     }).catch(error => {
         console.log('Tiraste cualca pibe...');
     });
 
-    console.log(cualca);
-
+    // Pusheo el id de mi nuevo gif al array donde tengo todos los ids de mis gifs.
+    giphy.pushNewIdGif(myGif.data.id);
+    setMisGuifosIdToStorage();
+    console.log('Guarde gifs en storage');
 }
 
+function checkStorageMisGifos() {
+    const misGuifosStorage = localStorage.getItem('misIdGuifos');
 
+    if (misGuifosStorage) {
+        giphy.setMisIdGuifos(JSON.parse(misGuifosStorage));
+        console.log('Mis Guifos de storage: ', giphy.getMisIdGuifos());
+    } else {
+        console.log('No habia gifs en el storage para cargar');
+    }
+}
 
+function setMisGuifosIdToStorage() {
+    // Pido el arreglo que tiene los IDs y lo convierto a string.
+    const misIdGuifosStringify = JSON.stringify(giphy.getMisIdGuifos());
+    // Guardo el arreglo como string con mis gifs en el storage.
+    localStorage.setItem(`misIdGuifos`, misIdGuifosStringify);
+}
 
 
 
