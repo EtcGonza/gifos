@@ -4,6 +4,9 @@ theme_light ? document.documentElement.setAttribute('theme', 'day') : document.d
 //
 let giphy = new Giphy(24, 'WMgym4yAIPYofgGPrganKNA7n1vg2D5Y');
 let RTCRecorder = new RtcRecorder();
+let myTimer;
+let seconds = 0;
+
 getMedia();
 eventListenerButtons();
 mostrarControl(0);
@@ -34,6 +37,7 @@ function eventListenerButtons() {
     buttonCapturar.addEventListener('click', async() => {
         console.log('COMENCE A GRABAR POR PRIMERA VEZ');
         if (RTCRecorder.getRecorderState() === "inactive") {
+            myTimer = setInterval(incrementSeconds, 1000);
             RTCRecorder.comenzarGrabacion();
             mostrarControl(1);
         }
@@ -41,6 +45,8 @@ function eventListenerButtons() {
 
     buttonListo.addEventListener('click', () => {
         console.log('DETUVE LA GRABACION, LISTO');
+
+        stopTimer(myTimer);
 
         mostrarControl(2);
 
@@ -56,6 +62,8 @@ function eventListenerButtons() {
 
     buttonRepetir.addEventListener('click', () => {
         console.log('REPITO GRABACION.');
+        stopTimer(myTimer);
+        myTimer = setInterval(incrementSeconds, 1000);
 
         mostrarControl(1);
 
@@ -68,6 +76,7 @@ function eventListenerButtons() {
 
     buttonSubir.addEventListener('click', () => {
         console.log('Elegi subir el gif.');
+        stopTimer(myTimer);
         subirGifo();
     });
 
@@ -211,4 +220,48 @@ function checkUrlGif(arrayGifImages) {
     console.log('Ninguna URL valida');
     return 'https://media.giphy.com/media/xTiN0L7EW5trfOvEk0/giphy.gif';
 
+}
+
+function incrementSeconds() {
+    let pNode = document.querySelectorAll('.recording-tiempo');
+
+    if (seconds < 12) {
+        seconds++;
+        console.log(seconds);
+
+        if (seconds <= 9) {
+            seconds = '0' + seconds;
+            pNode[0].innerHTML = '00:00:' + seconds;
+            pNode[1].innerHTML = '00:00:' + seconds;
+            seconds = parseInt(seconds);
+        } else {
+            pNode[0].innerHTML = '00:00:' + seconds;
+            pNode[1].innerHTML = '00:00:' + seconds;
+        }
+    } else {
+        forzarDetenerGrabacion();
+    }
+}
+
+function stopTimer(myTimer) {
+    clearInterval(myTimer);
+    seconds = 0;
+}
+
+function forzarDetenerGrabacion() {
+    const videoNode = document.getElementById('videoFrame');
+    const previsualizarGifNode = document.getElementById('previsualizarGif');
+
+    stopTimer(myTimer);
+
+    mostrarControl(2);
+
+    RTCRecorder.detenerGrabacion();
+
+    const urlBlob = RTCRecorder.getUrlBlob();
+
+    videoNode.classList.add('ocultar');
+    previsualizarGifNode.classList.remove('ocultar');
+
+    previsualizarGifNode.setAttribute('src', urlBlob);
 }
