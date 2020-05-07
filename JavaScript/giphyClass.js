@@ -74,7 +74,6 @@ class Giphy {
 
         for (let contador = 0; contador < this.misIdGuifos.length; contador++) {
             let gif = await this.getGifById(this.misIdGuifos[contador]);
-            console.log(gif);
             misGifs.push(gif);
         }
 
@@ -84,7 +83,6 @@ class Giphy {
     async pushNewIdGif(idGif) {
         this.misIdGuifos.push(idGif);
         this.myLastIdGif = idGif;
-        console.log('Nuevo gif pusheado.', this.misIdGuifos);
     }
 
     getMisIdGuifos() {

@@ -38,7 +38,6 @@ function eventListenerButtons() {
     });
 
     buttonCapturar.addEventListener('click', async() => {
-        console.log('COMENCE A GRABAR POR PRIMERA VEZ');
         if (RTCRecorder.getRecorderState() === "inactive") {
             myTimer = setInterval(incrementSeconds, 1000);
             RTCRecorder.comenzarGrabacion();
@@ -47,7 +46,6 @@ function eventListenerButtons() {
     });
 
     buttonListo.addEventListener('click', () => {
-        console.log('DETUVE LA GRABACION, LISTO');
 
         stopTimer(myTimer);
 
@@ -65,7 +63,6 @@ function eventListenerButtons() {
     });
 
     buttonRepetir.addEventListener('click', () => {
-        console.log('REPITO GRABACION.');
         stopTimer(myTimer);
         myTimer = setInterval(incrementSeconds, 1000);
 
@@ -79,7 +76,6 @@ function eventListenerButtons() {
     });
 
     buttonSubir.addEventListener('click', () => {
-        console.log('Elegi subir el gif.');
         stopTimer(myTimer);
         subirGifo();
     });
@@ -91,7 +87,6 @@ function eventListenerButtons() {
 
     buttonCopiarEnlace.addEventListener('click', async() => {
         const urlGif = await giphy.getUrlGif();
-        console.log(urlGif);
         await navigator.clipboard.writeText(urlGif);
     });
 
@@ -132,7 +127,6 @@ async function subirGifo() {
     giphy.pushNewIdGif(myGif.data.id);
     insertarMiNuevoGif(myGif.data.id);
     setMisGuifosIdToStorage();
-    console.log('Guarde gifs en storage');
 }
 
 function checkStorageMisGifos() {
@@ -140,7 +134,6 @@ function checkStorageMisGifos() {
 
     if (misGuifosStorage) {
         giphy.setMisIdGuifos(JSON.parse(misGuifosStorage));
-        console.log('Mis Guifos de storage: ', giphy.getMisIdGuifos());
     } else {
         console.log('No habia gifs en el storage para cargar');
     }
@@ -243,7 +236,6 @@ function incrementSeconds() {
 
     if (seconds < 12) {
         seconds++;
-        console.log(seconds);
 
         if (seconds <= 9) {
             seconds = '0' + seconds;
