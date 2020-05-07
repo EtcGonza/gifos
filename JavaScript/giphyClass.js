@@ -6,6 +6,7 @@ class Giphy {
         this.limitGifs = setLimitGifs;
         this.offsetHistory = 0;
         this.misIdGuifos = [];
+        this.myLastIdGif = "";
     }
 
     // Cargo trending gifs.
@@ -73,6 +74,7 @@ class Giphy {
 
         for (let contador = 0; contador < this.misIdGuifos.length; contador++) {
             let gif = await this.getGifById(this.misIdGuifos[contador]);
+            console.log(gif);
             misGifs.push(gif);
         }
 
@@ -81,6 +83,7 @@ class Giphy {
 
     async pushNewIdGif(idGif) {
         this.misIdGuifos.push(idGif);
+        this.myLastIdGif = idGif;
         console.log('Nuevo gif pusheado.', this.misIdGuifos);
     }
 
@@ -90,6 +93,11 @@ class Giphy {
 
     setMisIdGuifos(misIdGuifos) {
         this.misIdGuifos = misIdGuifos;
+    }
+
+    async getUrlGif() {
+        const gif = await this.getGifById(this.myLastIdGif);
+        return gif.bitly_gif_url;
     }
 
 }

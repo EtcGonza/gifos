@@ -26,8 +26,11 @@ function eventListenerButtons() {
     const buttonListo = document.getElementById('buttonListo');
     const buttonRepetir = document.getElementById('buttonRepetir');
     const buttonSubir = document.getElementById('buttonSubir');
+    const buttonDescargarGuifo = document.getElementById('descargarGuifo');
+    const buttonCopiarEnlace = document.getElementById('copiarEnlace');
     const videoNode = document.getElementById('videoFrame');
     const previsualizarGifNode = document.getElementById('previsualizarGif');
+    const tuGifSubido = document.querySelector('.ventana-gifo-subido img');
 
     buttonComenzar.addEventListener('click', () => {
         document.getElementById('ventanaTemplate').classList.replace('ocultar', 'mostrar');
@@ -58,6 +61,7 @@ function eventListenerButtons() {
         previsualizarGifNode.classList.remove('ocultar');
 
         previsualizarGifNode.setAttribute('src', urlBlob);
+        tuGifSubido.setAttribute('src', urlBlob);
     });
 
     buttonRepetir.addEventListener('click', () => {
@@ -80,6 +84,17 @@ function eventListenerButtons() {
         subirGifo();
     });
 
+    buttonDescargarGuifo.addEventListener('click', () => {
+        const miBlob = RTCRecorder.getMiBlob();
+        invokeSaveAsDialog(miBlob);
+    });
+
+    buttonCopiarEnlace.addEventListener('click', async() => {
+        const urlGif = await giphy.getUrlGif();
+        console.log(urlGif);
+        await navigator.clipboard.writeText(urlGif);
+    });
+
 }
 
 function mostrarControl(mostrar) {
@@ -99,7 +114,6 @@ async function subirGifo() {
 
     let miForm = new FormData();
     miForm.append('file', RTCRecorder.getMiBlob(), gifName);
-    console.log('MiForm: ', miForm.get('file'));
 
     let myGif = await fetch(`https://upload.giphy.com/v1/gifs?api_key=WMgym4yAIPYofgGPrganKNA7n1vg2D5Y`, {
         method: 'POST',
@@ -109,8 +123,10 @@ async function subirGifo() {
     .then(async response => {
         return await response.json();
     }).catch(error => {
-        console.log('Tiraste cualca pibe...');
+        console.log('Tiraste cualca pibe...', error);
     });
+
+    vistaSubiendoGif();
 
     // Pusheo el id de mi nuevo gif al array donde tengo todos los ids de mis gifs.
     giphy.pushNewIdGif(myGif.data.id);
@@ -251,6 +267,7 @@ function stopTimer(myTimer) {
 function forzarDetenerGrabacion() {
     const videoNode = document.getElementById('videoFrame');
     const previsualizarGifNode = document.getElementById('previsualizarGif');
+    const tuGifSubido = document.querySelector('.ventana-gifo-subido img');
 
     stopTimer(myTimer);
 
@@ -264,4 +281,11 @@ function forzarDetenerGrabacion() {
     previsualizarGifNode.classList.remove('ocultar');
 
     previsualizarGifNode.setAttribute('src', urlBlob);
+    tuGifSubido.setAttribute('src', urlBlob);
+}
+
+function vistaSubiendoGif() {
+    document.getElementById('ventanaTemplate').classList.replace('mostrar', 'ocultar');
+    document.getElementById('ventanaInstrucciones').classList.add('ocultar');
+    document.getElementById('ventanaFinalizar').classList.replace('ocultar', 'mostrar');
 }
