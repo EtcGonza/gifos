@@ -1,11 +1,12 @@
-let theme_light = true;
+let theme_light = false;
 theme_light ? document.documentElement.setAttribute('theme', 'day') : document.documentElement.setAttribute('theme', 'night');
-
+checkStorageTheme();
 //
 let giphy = new Giphy(24, 'WMgym4yAIPYofgGPrganKNA7n1vg2D5Y');
 let RTCRecorder = new RtcRecorder();
 let myTimer;
 let seconds = 0;
+
 
 getMedia();
 eventListenerButtons();
@@ -13,6 +14,7 @@ mostrarControl(0);
 
 checkStorageMisGifos();
 insertarMisGuifos();
+
 
 
 async function getMedia() {
@@ -32,12 +34,16 @@ function eventListenerButtons() {
     const previsualizarGifNode = document.getElementById('previsualizarGif');
     const tuGifSubido = document.querySelector('.ventana-gifo-subido img');
 
+
     buttonComenzar.addEventListener('click', () => {
+        document.getElementById('titulo-ventana').innerHTML = "Un Chequeo Antes de Empezar";
         document.getElementById('ventanaTemplate').classList.replace('ocultar', 'mostrar');
         document.getElementById('ventanaInstrucciones').classList.add('ocultar');
     });
 
     buttonCapturar.addEventListener('click', async() => {
+        document.getElementById('titulo-ventana').innerHTML = "Capturando Tu Guifo";
+
         if (RTCRecorder.getRecorderState() === "inactive") {
             myTimer = setInterval(incrementSeconds, 1000);
             RTCRecorder.comenzarGrabacion();
@@ -46,6 +52,9 @@ function eventListenerButtons() {
     });
 
     buttonListo.addEventListener('click', () => {
+
+        document.getElementById('titulo-ventana').innerHTML = "Vista Previa";
+
 
         stopTimer(myTimer);
 
@@ -63,6 +72,8 @@ function eventListenerButtons() {
     });
 
     buttonRepetir.addEventListener('click', () => {
+        document.getElementById('titulo-ventana').innerHTML = "Capturando Tu Guifo";
+
         stopTimer(myTimer);
         myTimer = setInterval(incrementSeconds, 1000);
 
@@ -76,7 +87,10 @@ function eventListenerButtons() {
     });
 
     buttonSubir.addEventListener('click', () => {
+        document.getElementById('titulo-ventana').innerHTML = "Subiendo Guifo";
+
         stopTimer(myTimer);
+        mostrarControl(3);
         subirGifo();
     });
 
@@ -107,6 +121,8 @@ function mostrarControl(mostrar) {
 async function subirGifo() {
     const gifName = 'MyGifNumber' + giphy.getMisIdGuifos().length + '.gif';
 
+    changeStateVentanaGrabacion('subiendoGif');
+
     let miForm = new FormData();
     miForm.append('file', RTCRecorder.getMiBlob(), gifName);
 
@@ -121,7 +137,8 @@ async function subirGifo() {
         console.log('Tiraste cualca pibe...', error);
     });
 
-    vistaSubiendoGif();
+    vistaGifSubido();
+
 
     // Pusheo el id de mi nuevo gif al array donde tengo todos los ids de mis gifs.
     giphy.pushNewIdGif(myGif.data.id);
@@ -231,6 +248,8 @@ function checkUrlGif(arrayGifImages) {
 
 }
 
+// CRONOMETRO
+
 function incrementSeconds() {
     let pNode = document.querySelectorAll('.recording-tiempo');
 
@@ -276,8 +295,109 @@ function forzarDetenerGrabacion() {
     tuGifSubido.setAttribute('src', urlBlob);
 }
 
-function vistaSubiendoGif() {
+function vistaGifSubido() {
     document.getElementById('ventanaTemplate').classList.replace('mostrar', 'ocultar');
     document.getElementById('ventanaInstrucciones').classList.add('ocultar');
     document.getElementById('ventanaFinalizar').classList.replace('ocultar', 'mostrar');
 }
+
+function changeStateVentanaGrabacion(state) {
+    document.querySelector('.contenedor-grabando');
+    document.querySelector('.contenedor-subiendo-gif');
+
+    if (state == 'subiendoGif') {
+        progressBar.show();
+        document.querySelector('.contenedor-grabando').classList.add('ocultar');
+        document.querySelector('.contenedor-subiendo-gif').classList.remove('ocultar');
+    } else if (state == 'grabandoGif') {
+        progressBar.hide();
+        document.querySelector('.contenedor-grabando').classList.remove('ocultar');
+        document.querySelector('.contenedor-subiendo-gif').classList.add('ocultar');
+    } else {
+        console.error('No se pudo cambiar el estado de la ventana de grabacion.');
+    }
+
+}
+
+function checkStorageTheme() {
+
+    const theme = localStorage.getItem('theme');
+
+    if (theme == 'day') {
+        document.documentElement.setAttribute('theme', 'day');
+        document.querySelector('.camera-icon').setAttribute('src', '/assets/img/camera.svg');
+    } else if (theme == 'night') {
+        document.documentElement.setAttribute('theme', 'night');
+        document.querySelector('.camera-icon').setAttribute('src', '/assets/img/camera_light.svg');
+    } else {
+        document.documentElement.setAttribute('theme', 'day');
+        document.querySelector('.camera-icon').setAttribute('src', '/assets/img/camera.svg');
+    }
+}
+
+
+// PROGRESSBAR
+
+const ProgressBar = function(childItemsAmmount = 23, progressInterval = 150) {
+    const progressBarElement = document.getElementById('progress-bar');
+    let hidden = true;
+    let childItems = [];
+    let interval;
+    let firstActive = lastActive = 0;
+
+    function init() {}
+
+    function show() {
+        if (!hidden) return;
+
+        hidden = false;
+        progressBarElement.classList.remove('progress-bar-hidden');
+
+        renderContent();
+        animateContent();
+    }
+
+    function hide() {
+        if (hidden) return;
+
+        hidden = true;
+
+        progressBarElement.innerHTML = null;
+        progressBarElement.classList.add('progress-bar-hidden');
+
+        clearInterval(interval);
+        childItems = [];
+        firstActive = lastActive = 0;
+    }
+
+    function renderContent() {
+
+        for (let i = 0; i <= childItemsAmmount; i++) {
+            const item = document.createElement('span');
+            item.classList.add('progress-item');
+            childItems.push(item);
+        }
+
+        childItems.forEach(item => progressBarElement.append(item));
+    }
+
+    function animateContent() {
+        interval = setInterval(() => {
+            if (lastActive < childItems.length) {
+                childItems[lastActive].classList.add('active');
+                lastActive++;
+            } else if (firstActive < childItems.length) {
+                childItems[firstActive].classList.remove('active');
+                firstActive++;
+            } else {
+                lastActive = firstActive = 0;
+            }
+        }, progressInterval);
+    }
+
+
+    return { show, hide };
+};
+
+// Cantidad de items, velocidad de progreso (milisegundos)
+const progressBar = new ProgressBar(22, 100);

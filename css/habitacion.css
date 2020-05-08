@@ -16,12 +16,18 @@ button.button-ancho {
     height: 36px;
 }
 
-.boton-tiza {
-    background-color: var(--color-background);
+button span {
+    color: var(--color-text-button);
 }
 
-.boton-rosado {
-    background-color: var(--color01);
+.boton-secondary,
+.boton-secondary:hover {
+    background-color: var(--color-button-secondary);
+}
+
+.boton-primary,
+.boton-primary:hover {
+    background-color: var(--color-button-primary);
 }
 
 .boton-naranja {
@@ -141,9 +147,9 @@ div.ventana-crear-guifo.terminado {
 
 div.ventana-grabacion {
     margin: auto auto;
-    /* top: 0px; */
     width: calc(100% - 20px);
     height: 437px;
+    background-color: #FFFFFF;
 }
 
 div.ventana-grabacion img {
@@ -241,4 +247,51 @@ div.posicionar-bottom {
 .ventana-gifo-subido img {
     width: 100%;
     height: 100%;
+}
+
+
+/* PROGRESSBAR */
+
+div.contenedor-subiendo-gif {
+    text-align: center;
+}
+
+div.contenedor-subiendo-gif p,
+div.contenedor-subiendo-gif h3 {
+    margin-top: 10px;
+}
+
+img.globe_icon {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.progress-bar {
+    width: 324px;
+    height: 24px;
+    background: #B4B4B4;
+    display: flex;
+    box-sizing: border-box;
+    border-top: 2px solid #000000;
+    border-left: 2px solid #000000;
+    margin-top: 40px;
+}
+
+.progress-bar.progress-bar-hidden {
+    display: none !important;
+}
+
+.progress-bar .progress-item {
+    background-color: #999999;
+    margin: 0 2px 0 0;
+    display: flex;
+    flex-grow: 1;
+}
+
+.progress-bar .progress-item.active {
+    background-color: #F7C9F3;
+}
+
+.progress-bar .progress-item:last-child {
+    margin: 0;
 }

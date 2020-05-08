@@ -52,6 +52,8 @@
     --color1-box-shadow-button-sugerencia: #B4B4B4;
     --color2-box-shadow-button-sugerencia: #FFFFFF;
     --color-border-button-sugerencia: #808080;
+    --color-button-primary: #F7C9F3;
+    --color-button-secondary: #FFF4FD;
 }
 
 :root[theme='night'] {
@@ -107,6 +109,8 @@
     --color1-box-shadow-button-sugerencia: #B4B4B4;
     --color2-box-shadow-button-sugerencia: #FFFFFF;
     --color-border-button-sugerencia: #808080;
+    --color-button-primary: #EE3EFE;
+    --color-button-secondary: #CCCCCC;
 }
 
 :root {
@@ -196,8 +200,7 @@ button:active,
     width: 100%;
 }
 
-span.negrita,
-p.negrita {
+.negrita {
     font-weight: bold;
 }
 
