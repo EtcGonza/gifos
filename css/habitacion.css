@@ -3,6 +3,13 @@
 
 /* UTILIDADES Y GENERALES */
 
+div.contenedor-instrucciones p,
+h3,
+h4,
+span {
+    color: var(--color03);
+}
+
 button {
     width: 144px;
     height: 36px;
@@ -22,6 +29,7 @@ button span {
 
 .boton-secondary,
 .boton-secondary:hover {
+    color: var(--color-button-text-secondary);
     background-color: var(--color-button-secondary);
 }
 
@@ -58,12 +66,6 @@ div.ventana-chica {
 div.ventana-grande {
     width: 860px;
     height: 548px;
-}
-
-div.contenedor-instrucciones p,
-h3,
-span {
-    color: var(--color03);
 }
 
 div.contenedor-instrucciones div p {
@@ -120,14 +122,18 @@ div.contenedor-botones button:first-child {
 /* VENTANA GIFO SUBIDO */
 
 div.ventana-gifo-subido {
-    width: 60%;
+    width: 85%;
     height: 191px;
     background: #FFFFFF;
     margin: 29px 27px 0px 27px;
 }
 
 div.previsualizacion-gif-creado {
-    width: 50%;
+    width: 15%;
+}
+
+div.previsualizacion-gif-creado button {
+    margin-top: 16px;
 }
 
 div.botones-gif-creado button:first-of-type {
@@ -146,10 +152,13 @@ div.ventana-crear-guifo.terminado {
 }
 
 div.ventana-grabacion {
-    margin: auto auto;
-    width: calc(100% - 20px);
-    height: 437px;
+    margin: 0 auto;
+    margin-top: 1.5vh;
+    width: 832px;
+    height: 434px;
     background-color: #FFFFFF;
+    border: 1px solid #979797;
+    box-shadow: inset -2px -2px 0 0 #E6E6E6, inset 2px 2px 0 0 #000000;
 }
 
 div.ventana-grabacion img {
@@ -240,8 +249,7 @@ div.posicionar-bottom {
 
 .videoFrame {
     margin: 0 auto;
-    height: 434px;
-    width: calc(100%);
+    height: calc(434px - 6px);
 }
 
 .ventana-gifo-subido img {
@@ -294,4 +302,12 @@ img.globe_icon {
 
 .progress-bar .progress-item:last-child {
     margin: 0;
+}
+
+.contenedor-vh {
+    height: 19vh;
+}
+
+.contenedor-vh button {
+    margin: 0px 44px 44px 0px;
 }

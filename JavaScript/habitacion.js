@@ -322,13 +322,16 @@ function changeStateVentanaGrabacion(state) {
 function checkStorageTheme() {
 
     const theme = localStorage.getItem('theme');
+    let logoGifNode = document.querySelector('.logo-gif');
 
     if (theme == 'day') {
         document.documentElement.setAttribute('theme', 'day');
         document.querySelector('.camera-icon').setAttribute('src', '/assets/img/camera.svg');
+        logoGifNode.setAttribute('src', '/assets/img/gifOF_logo_day.png');
     } else if (theme == 'night') {
         document.documentElement.setAttribute('theme', 'night');
         document.querySelector('.camera-icon').setAttribute('src', '/assets/img/camera_light.svg');
+        logoGifNode.setAttribute('src', '/assets/img/gifOF_logo_night.png');
     } else {
         document.documentElement.setAttribute('theme', 'day');
         document.querySelector('.camera-icon').setAttribute('src', '/assets/img/camera.svg');

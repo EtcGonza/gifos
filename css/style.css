@@ -54,6 +54,7 @@
     --color-border-button-sugerencia: #808080;
     --color-button-primary: #F7C9F3;
     --color-button-secondary: #FFF4FD;
+    --color-button-text-secondary: #110038;
 }
 
 :root[theme='night'] {
@@ -111,6 +112,8 @@
     --color-border-button-sugerencia: #808080;
     --color-button-primary: #EE3EFE;
     --color-button-secondary: #CCCCCC;
+    --color-button-text-secondary: #110038;
+    --color-button-text-secondary: #110038;
 }
 
 :root {
@@ -300,6 +303,10 @@ button:active,
     font-size: 16px;
     margin-left: 10px;
     color: var(--color-text-misGuifos);
+}
+
+.mis-guifos:hover {
+    cursor: pointer;
 }
 
 
