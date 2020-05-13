@@ -302,17 +302,17 @@ function vistaGifSubido() {
 }
 
 function changeStateVentanaGrabacion(state) {
-    document.querySelector('.contenedor-grabando');
-    document.querySelector('.contenedor-subiendo-gif');
+    document.querySelector('.grabandoGif');
+    document.querySelector('.subiendoGif');
 
     if (state == 'subiendoGif') {
         progressBar.show();
-        document.querySelector('.contenedor-grabando').classList.add('ocultar');
-        document.querySelector('.contenedor-subiendo-gif').classList.remove('ocultar');
+        document.querySelector('.grabandoGif').classList.add('ocultar');
+        document.querySelector('.subiendoGif').classList.remove('ocultar');
     } else if (state == 'grabandoGif') {
         progressBar.hide();
-        document.querySelector('.contenedor-grabando').classList.remove('ocultar');
-        document.querySelector('.contenedor-subiendo-gif').classList.add('ocultar');
+        document.querySelector('.grabandoGif').classList.remove('ocultar');
+        document.querySelector('.subiendoGif').classList.add('ocultar');
     } else {
         console.error('No se pudo cambiar el estado de la ventana de grabacion.');
     }
